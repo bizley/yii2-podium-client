@@ -24,13 +24,23 @@ class PodiumClient extends Module
      */
     public $layout = 'main';
 
+    /**
+     * @var array|null
+     */
+    public $api;
+
     public function init()
     {
         parent::init();
-        $this->set('api', [
-            'class' => Podium::class
-        ]);
+
+        if ($this->api === null) {
+            $this->set('api', [
+                'class' => Podium::class
+            ]);
+        }
+
         $this->setVersion('1.0.0');
+
         if (\Yii::$app instanceof Application) {
             $this->controllerNamespace = 'bizley\podium\client\commands';
         }
