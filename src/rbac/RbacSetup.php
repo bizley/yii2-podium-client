@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\rbac;
 
-use bizley\podium\api\enums\Permission;
-use bizley\podium\api\enums\Role;
-use bizley\podium\api\events\RbacEvent;
+use bizley\podium\client\enums\Permission;
+use bizley\podium\client\enums\Role;
+use bizley\podium\client\events\RbacEvent;
 use yii\base\Component;
 use yii\rbac\DbManager;
 

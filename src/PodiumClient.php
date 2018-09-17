@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace bizley\podium\client;
 
 use bizley\podium\api\Podium;
+use bizley\podium\client\base\Config;
 use yii\base\Module;
 use yii\console\Application;
 
@@ -25,24 +26,63 @@ class PodiumClient extends Module
     public $layout = 'main';
 
     /**
-     * @var array|null
+     * @var array|string|null
      */
-    public $api;
+    public $apiComponent;
 
-    public function init()
+    /**
+     * @var array|string|null
+     */
+    public $configComponent;
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function init(): void
     {
         parent::init();
-
-        if ($this->api === null) {
-            $this->set('api', [
-                'class' => Podium::class
-            ]);
-        }
 
         $this->setVersion('1.0.0');
 
         if (\Yii::$app instanceof Application) {
             $this->controllerNamespace = 'bizley\podium\client\commands';
         }
+
+        $this->setPodiumApiComponent();
+        $this->setPodiumConfigComponent();
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function setPodiumApiComponent(): void
+    {
+        $this->set('podiumApi', $this->apiComponent ?? ['class' => Podium::class]);
+    }
+
+    /**
+     * @return null|object
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getPodiumApi()
+    {
+        return $this->get('podiumApi');
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function setPodiumConfigComponent(): void
+    {
+        $this->set('podiumConfig', $this->configComponent ?? ['class' => Config::class]);
+    }
+
+    /**
+     * @return null|object
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getPodiumConfig()
+    {
+        return $this->get('podiumConfig');
     }
 }

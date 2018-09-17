@@ -7,6 +7,7 @@ namespace bizley\podium\client\base;
 use bizley\podium\client\enums\Setting;
 use bizley\podium\client\interfaces\ConfigInterface;
 use bizley\podium\client\repos\ConfigRepo;
+use yii\base\Component;
 use yii\base\InvalidConfigException;
 
 /**
@@ -15,7 +16,7 @@ use yii\base\InvalidConfigException;
  *
  * @property array $defaultValues
  */
-class Config extends PodiumComponent implements ConfigInterface
+class Config extends Component implements ConfigInterface
 {
     /**
      * @var array
@@ -71,12 +72,23 @@ class Config extends PodiumComponent implements ConfigInterface
 
     /**
      * @param string $param
-     * @param string|null $default
      * @return string|null
      */
-    public function getValue(string $param, ?string $default = null): ?string
+    public function getValue(string $param): ?string
     {
-        if (array_key_exists($param, $this->_config)) {
+        $defaultValues = $this->getDefaultValues();
+        return $this->getRawValue($param, $defaultValues[$param] ?? null, true);
+    }
+
+    /**
+     * @param string $param
+     * @param string|null $default
+     * @param bool $cached
+     * @return string|null
+     */
+    public function getRawValue(string $param, ?string $default = null, bool $cached = true): ?string
+    {
+        if ($cached && array_key_exists($param, $this->_config)) {
             return $this->_config[$param];
         }
         if (array_key_exists($param, $this->settings)) {

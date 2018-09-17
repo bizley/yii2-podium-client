@@ -19,8 +19,7 @@ interface ConfigInterface
 
     /**
      * @param string $param
-     * @param string|null $default
      * @return string|null
      */
-    public function getValue(string $param, ?string $default = null): ?string;
+    public function getValue(string $param): ?string;
 }
