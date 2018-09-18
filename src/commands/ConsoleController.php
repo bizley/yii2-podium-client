@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\commands;
 
+use bizley\podium\api\base\PodiumResponse;
+use bizley\podium\api\Podium;
+use bizley\podium\client\base\Access;
+use bizley\podium\client\enums\Role;
 use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;
@@ -18,6 +22,22 @@ class ConsoleController extends Controller
      * @var string
      */
     public $defaultAction = 'setup';
+
+    /**
+     * @return Access
+     */
+    public function getAccess(): Access
+    {
+        return $this->module->getPodiumAccess();
+    }
+
+    /**
+     * @return Podium
+     */
+    public function getApi(): Podium
+    {
+        return $this->module->getPodiumApi();
+    }
 
     /**
      * @param \yii\base\Action $action
@@ -39,6 +59,7 @@ class ConsoleController extends Controller
      * Installs Podium module.
      * @return int
      * @throws \yii\base\NotSupportedException
+     * @throws \Exception
      */
     public function actionSetup(): int
     {
@@ -58,7 +79,7 @@ class ConsoleController extends Controller
      * @param string $char
      * @param int $length
      */
-    public function renderLine(string $text, string $char = '.', int $length = 60): void
+    public function renderLine(string $text, string $char = '.', int $length = 65): void
     {
         $size = $length - \strlen($text) - 1;
         if ($size < 0) {
@@ -94,29 +115,39 @@ class ConsoleController extends Controller
     {
         if ($this->confirm('> Would you like to set Podium permissions?')) {
             $this->renderLine('> Checking current permissions');
+
             if ($this->detectPermissions()) {
                 $this->stdout("FOUND\n", Console::FG_YELLOW, Console::NEGATIVE);
                 $this->stdout("> Please back up your database first before you continue with permissions purge.\n", Console::FG_YELLOW);
+
                 if ($this->confirm('> Would you like to reset current Podium permissions (all members will lose their roles)?')) {
                     $this->renderLine('> Removing current permissions');
-                    $this->module->getPodiumAccess()->removeAll();
+
+                    $this->getAccess()->removeAll();
+
                     $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
                 } else {
                     $this->stdout(">> Current Podium permissions kept.\n", Console::FG_YELLOW);
+
                     return true;
                 }
             } else {
                 $this->stdout("EMPTY\n", Console::FG_GREEN, Console::NEGATIVE);
             }
+
             $this->renderLine('> Setting Podium permissions');
+
             if (!$this->savePermissions()) {
                 $this->stdout("ERROR\n", Console::FG_RED, Console::NEGATIVE);
+
                 return false;
             }
+
             $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
         } else {
             $this->stdout(">> Podium permissions setting skipped.\n");
         }
+
         return true;
     }
 
@@ -125,7 +156,7 @@ class ConsoleController extends Controller
      */
     public function detectPermissions(): bool
     {
-        return !empty($this->module->getPodiumAccess()->getRoles());
+        return !empty($this->getAccess()->getRoles());
     }
 
     /**
@@ -133,27 +164,122 @@ class ConsoleController extends Controller
      */
     public function savePermissions(): bool
     {
-        return $this->module->getPodiumAccess()->setDefault();
+        return $this->getAccess()->setDefault();
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function configureAdmin(): void
     {
-        $adminId = $this->prompt('> Enter database ID of user who should become Podium administrator (enter to skip):');
+        $adminId = $this->prompt('> Enter database ID of user who should become Podium administrator (or just press enter to skip):');
         if ($adminId === '') {
             $this->stdout(">> Podium administrator has not been set.\n", Console::FG_YELLOW);
         } else {
-            Yii::warning("Setting new Podium administrator with ID \"{$adminId}\".", 'podium');
-            $this->renderLine("> Setting Podium administrator with ID \"{$adminId}\"");
-            if (!$this->saveAdmin($adminId)) {
-                $this->stdout("ERROR\n", Console::FG_RED, Console::NEGATIVE);
+            $this->renderLine("> Checking current member with ID \"{$adminId}\"");
+
+            $member = $this->findMember($adminId);
+
+            if ($member !== null) {
+                $this->setExistingMemberAsAdmin($member, $adminId);
             } else {
-                $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+                $this->setNewMemberAsAdmin($adminId);
             }
         }
     }
 
-    protected function saveAdmin(string $adminId): bool
+    /**
+     * @param string $member
+     * @param string $adminId
+     * @throws \Exception
+     */
+    protected function setExistingMemberAsAdmin(string $member, string $adminId): void
     {
-        return true;
+        $this->stdout("FOUND\n", Console::FG_YELLOW, Console::NEGATIVE);
+
+        if ($this->confirm("> Would you like to make member \"{$member}\" the Podium Admin?")) {
+            $this->renderLine("> Assigning Admin role for \"{$member}\"");
+
+            $this->assignAdmin($adminId);
+
+            Yii::warning("Assigning Podium Admin role for member with ID \"{$adminId}\" and username \"{$member}\".", 'podium');
+            $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+        } else {
+            $this->stdout(">> Podium administrator has not been set.\n", Console::FG_YELLOW);
+        }
+    }
+
+    /**
+     * @param string $adminId
+     * @throws \Exception
+     */
+    protected function setNewMemberAsAdmin(string $adminId): void
+    {
+        while (true) {
+            $username = $this->prompt('> Enter new administrator username (or just press enter to resign):');
+
+            if ($username === '') {
+                $this->stdout(">> Podium administrator has not been set.\n", Console::FG_YELLOW);
+                break;
+            }
+
+            $this->renderLine("> Registering Podium member with ID \"{$adminId}\" and username \"{$username}\"");
+
+            $registration = $this->registerMember($adminId, $username);
+
+            if ($registration->result) {
+                $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+                $this->renderLine("> Assigning Admin role for \"{$username}\"");
+
+                $this->assignAdmin($adminId);
+
+                Yii::warning("Registering new Podium administrator with ID \"{$adminId}\" and username \"{$username}\".", 'podium');
+                $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+                break;
+            }
+            $this->stdout("ERROR\n", Console::FG_RED, Console::NEGATIVE);
+            if (empty($registration->errors)) {
+                Yii::error("Unknown error while registering new Podium administrator with ID \"{$adminId}\" and username \"{$username}\".", 'podium');
+                break;
+            }
+            foreach ($registration->errors as $attribute => $errors) {
+                foreach ($errors as $error) {
+                    $this->stdout(">> {$error}\n", Console::FG_RED);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param string $adminId
+     * @param string $username
+     * @return PodiumResponse
+     */
+    protected function registerMember(string $adminId, string $username): PodiumResponse
+    {
+        return $this->getApi()->member->register([
+            'user_id' => $adminId,
+            'username' => $username,
+        ]);
+    }
+
+    /**
+     * @param string $adminId
+     * @throws \Exception
+     */
+    protected function assignAdmin(string $adminId): void
+    {
+        $this->getAccess()->revokeAll($adminId); // only one role per member
+        $this->getAccess()->assign($this->getAccess()->getRole(Role::ADMIN), $adminId);
+    }
+
+    /**
+     * @param string $adminId
+     * @return null|string
+     */
+    protected function findMember(string $adminId): ?string
+    {
+        $member = $this->getApi()->member->getMemberByUserId($adminId);
+        return $member !== null ? $member->username : null;
     }
 }
