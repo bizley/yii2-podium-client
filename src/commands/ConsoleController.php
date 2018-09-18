@@ -99,14 +99,17 @@ class ConsoleController extends Controller
                 $this->stdout("> Please back up your database first before you continue with permissions purge.\n", Console::FG_YELLOW);
                 if ($this->confirm('> Would you like to reset current Podium permissions (all members will lose their roles)?')) {
                     $this->renderLine('> Removing current permissions');
+                    $this->module->getPodiumAccess()->removeAll();
+                    $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
                 } else {
                     $this->stdout(">> Current Podium permissions kept.\n", Console::FG_YELLOW);
+                    return true;
                 }
             } else {
                 $this->stdout("EMPTY\n", Console::FG_GREEN, Console::NEGATIVE);
             }
             $this->renderLine('> Setting Podium permissions');
-            if ($this->savePermissions()) {
+            if (!$this->savePermissions()) {
                 $this->stdout("ERROR\n", Console::FG_RED, Console::NEGATIVE);
                 return false;
             }
@@ -115,6 +118,22 @@ class ConsoleController extends Controller
             $this->stdout(">> Podium permissions setting skipped.\n");
         }
         return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function detectPermissions(): bool
+    {
+        return !empty($this->module->getPodiumAccess()->getRoles());
+    }
+
+    /**
+     * @return bool
+     */
+    public function savePermissions(): bool
+    {
+        return $this->module->getPodiumAccess()->setDefault();
     }
 
     protected function configureAdmin(): void
