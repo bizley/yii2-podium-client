@@ -14,7 +14,7 @@ use yii\console\ExitCode;
 use yii\helpers\Console;
 
 /**
- * Podium Setup.
+ * Podium Console.
  */
 class ConsoleController extends Controller
 {
@@ -56,7 +56,7 @@ class ConsoleController extends Controller
     }
 
     /**
-     * Installs Podium module.
+     * First time Podium setup.
      * @return int
      * @throws \yii\base\NotSupportedException
      * @throws \Exception
@@ -70,6 +70,43 @@ class ConsoleController extends Controller
         if ($this->configureRbac()) {
             $this->configureAdmin();
         }
+
+        return ExitCode::OK;
+    }
+
+    /**
+     * Sets Podium permissions.
+     * @return int
+     * @throws \yii\base\NotSupportedException
+     * @throws \Exception
+     */
+    public function actionPerms(): int
+    {
+        if (!$this->detectTables()) {
+            return ExitCode::CONFIG;
+        }
+
+        $this->configureRbac();
+
+        return ExitCode::OK;
+    }
+
+    /**
+     * Registers Podium Admin.
+     * @return int
+     * @throws \yii\base\NotSupportedException
+     * @throws \Exception
+     */
+    public function actionAdmin(): int
+    {
+        if (!$this->detectTables()) {
+            return ExitCode::CONFIG;
+        }
+
+        if (!$this->detectPermissions(true)) {
+            return ExitCode::CONFIG;
+        }
+        $this->configureAdmin();
 
         return ExitCode::OK;
     }
@@ -152,11 +189,25 @@ class ConsoleController extends Controller
     }
 
     /**
+     * @param bool $showOutput
      * @return bool
      */
-    public function detectPermissions(): bool
+    public function detectPermissions(bool $showOutput = false): bool
     {
-        return !empty($this->getAccess()->getRoles());
+        if (empty($this->getAccess()->getRoles())) {
+            if ($showOutput) {
+                $this->stdout('>> ', Console::FG_RED);
+                $this->stdout('ERROR', Console::FG_RED, Console::NEGATIVE);
+                $this->stdout(": Podium permissions not set!\n", Console::FG_RED);
+                $this->stdout('>> Please run "');
+                $this->stdout("php yii {$this->module->id}/console/perms", Console::FG_YELLOW);
+                $this->stdout("\" first.\n");
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
