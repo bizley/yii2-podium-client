@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\interfaces;
 
+use bizley\podium\api\interfaces\MembershipInterface;
 use yii\rbac\DbManager;
 use yii\rbac\Permission;
 use yii\rbac\Role;

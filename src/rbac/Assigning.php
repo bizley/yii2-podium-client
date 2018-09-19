@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\rbac;
 
+use bizley\podium\api\interfaces\MembershipInterface;
 use bizley\podium\client\events\RoleEvent;
 use bizley\podium\client\interfaces\AssigningInterface;
-use bizley\podium\client\interfaces\MembershipInterface;
 use Throwable;
 use Yii;
 use yii\base\Component;
@@ -80,7 +80,7 @@ class Assigning extends Component implements AssigningInterface
         try {
             $currentRoles = $this->_manager->getRolesByUser($this->_memberId);
             foreach ($currentRoles as $name => $role) {
-                if (\in_array($name, \bizley\podium\api\enums\Role::keys(), true)) {
+                if (\in_array($name, \bizley\podium\client\enums\Role::keys(), true)) {
                     if (!$this->_manager->revoke($role, $this->_memberId)) {
                         throw new RoleRevokeException("Error while revoking '{$name}' role from member of ID {$this->_memberId}");
                     }
@@ -111,7 +111,7 @@ class Assigning extends Component implements AssigningInterface
     public function afterSwitch(Assignment $assignment): void
     {
         $this->trigger(self::EVENT_AFTER_SWITCH, new RoleEvent([
-            'assignment' => $assignment
+            'model' => $assignment
         ]));
     }
 }

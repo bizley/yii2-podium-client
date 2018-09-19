@@ -331,6 +331,6 @@ class ConsoleController extends Controller
     protected function findMember(string $adminId): ?string
     {
         $member = $this->getApi()->member->getMemberByUserId($adminId);
-        return $member !== null ? $member->username : null;
+        return $member !== null ? $member->getUsername() : null;
     }
 }
