@@ -20,12 +20,12 @@ class PodiumClient extends Module
     /**
      * @var string
      */
-    public $defaultRoute = 'main';
+    public $defaultRoute = 'main/index';
 
     /**
      * @var string
      */
-    public $layout = 'main';
+    public $layout = 'default';
 
     /**
      * @var array|string|null
