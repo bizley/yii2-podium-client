@@ -227,7 +227,7 @@ class ConsoleController extends Controller
         if ($adminId === '') {
             $this->stdout(">> Podium administrator has not been set.\n", Console::FG_YELLOW);
         } else {
-            $this->renderLine("> Checking current member with ID \"{$adminId}\"");
+            $this->renderLine("> Checking current member with User ID \"{$adminId}\"");
 
             $member = $this->findMember($adminId);
 
@@ -266,6 +266,8 @@ class ConsoleController extends Controller
      */
     protected function setNewMemberAsAdmin(string $adminId): void
     {
+        $this->stdout("NONE\n", Console::FG_GREEN, Console::NEGATIVE);
+
         while (true) {
             $username = $this->prompt('> Enter new administrator username (or just press enter to resign):');
 
@@ -274,7 +276,7 @@ class ConsoleController extends Controller
                 break;
             }
 
-            $this->renderLine("> Registering Podium member with ID \"{$adminId}\" and username \"{$username}\"");
+            $this->renderLine("> Registering Podium member with User ID \"{$adminId}\" and username \"{$username}\"");
 
             $registration = $this->registerMember($adminId, $username);
 
@@ -284,7 +286,7 @@ class ConsoleController extends Controller
 
                 $this->assignAdmin($adminId);
 
-                Yii::warning("Registering new Podium administrator with ID \"{$adminId}\" and username \"{$username}\".", 'podium');
+                Yii::warning("Registering new Podium administrator with User ID \"{$adminId}\" and username \"{$username}\".", 'podium');
                 $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
                 break;
             }
