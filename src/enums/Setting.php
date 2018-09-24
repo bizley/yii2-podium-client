@@ -27,13 +27,13 @@ final class Setting extends BaseEnum
     public static function data(): array
     {
         return [
-            self::POLLS_ALLOWED => Yii::t('podium.enum', 'setting.polls.allowed'),
-            self::MIN_POSTS_FOR_HOT => Yii::t('podium.enum', 'setting.minimum.posts.for.hot'),
-            self::MAINTENANCE_MODE => Yii::t('podium.enum', 'setting.maintenance.mode'),
-            self::MEMBERS_VISIBLE => Yii::t('podium.enum', 'setting.members.visible'),
-            self::MERGE_POSTS => Yii::t('podium.enum', 'setting.merge.posts'),
-            self::NAME => Yii::t('podium.enum', 'setting.podium.name'),
-            self::REGISTRATION_ALLOWED => Yii::t('podium.enum', 'setting.registration.allowed'),
+            self::POLLS_ALLOWED => Yii::t('podium.client.enum', 'setting.polls.allowed'),
+            self::MIN_POSTS_FOR_HOT => Yii::t('podium.client.enum', 'setting.minimum.posts.for.hot'),
+            self::MAINTENANCE_MODE => Yii::t('podium.client.enum', 'setting.maintenance.mode'),
+            self::MEMBERS_VISIBLE => Yii::t('podium.client.enum', 'setting.members.visible'),
+            self::MERGE_POSTS => Yii::t('podium.client.enum', 'setting.merge.posts'),
+            self::NAME => Yii::t('podium.client.enum', 'setting.podium.name'),
+            self::REGISTRATION_ALLOWED => Yii::t('podium.client.enum', 'setting.registration.allowed'),
         ];
     }
 }

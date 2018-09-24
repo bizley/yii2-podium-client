@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace bizley\podium\client\controllers;
 
 /**
- * Class MainController
+ * Class AdminController
  * @package bizley\podium\client\controllers
  */
-class MainController extends \yii\web\Controller
+class AdminController extends \yii\web\Controller
 {
+    public $layout = 'admin';
+
     /**
      * @return array
      */

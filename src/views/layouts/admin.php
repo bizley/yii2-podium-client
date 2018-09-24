@@ -26,7 +26,7 @@ use yii\helpers\Html;
 <div class="container">
     <div class="row row-offcanvas row-offcanvas-right">
         <?= $content ?>
-        <?= $this->render('right-menu') ?>
+        <?= $this->render('admin-menu') ?>
     </div>
 
     <?= $this->render('footer') ?>

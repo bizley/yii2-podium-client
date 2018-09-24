@@ -24,10 +24,10 @@ final class Role extends BaseEnum
     public static function data(): array
     {
         return [
-            self::GUEST => Yii::t('podium.enum', 'role.guest'),
-            self::MEMBER => Yii::t('podium.enum', 'role.member'),
-            self::MODERATOR => Yii::t('podium.enum', 'role.moderator'),
-            self::ADMIN => Yii::t('podium.enum', 'role.admin'),
+            self::GUEST => Yii::t('podium.client.enum', 'role.guest'),
+            self::MEMBER => Yii::t('podium.client.enum', 'role.member'),
+            self::MODERATOR => Yii::t('podium.client.enum', 'role.moderator'),
+            self::ADMIN => Yii::t('podium.client.enum', 'role.admin'),
         ];
     }
 }

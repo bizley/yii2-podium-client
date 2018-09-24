@@ -115,7 +115,7 @@ class PodiumClient extends Module
 
     public function prepareTranslations(): void
     {
-        \Yii::$app->getI18n()->translations['podium.*'] = [
+        \Yii::$app->getI18n()->translations['podium.client.*'] = [
             'class' => PhpMessageSource::class,
             'sourceLanguage' => 'en',
             'forceTranslation' => true,
