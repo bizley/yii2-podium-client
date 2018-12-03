@@ -71,7 +71,7 @@ class PodiumClient extends Module
     }
 
     /**
-     * @return null|object
+     * @return null|object|Podium
      * @throws \yii\base\InvalidConfigException
      */
     public function getPodiumApi()
@@ -88,7 +88,7 @@ class PodiumClient extends Module
     }
 
     /**
-     * @return null|object
+     * @return null|object|Config
      * @throws \yii\base\InvalidConfigException
      */
     public function getPodiumConfig()
@@ -105,7 +105,7 @@ class PodiumClient extends Module
     }
 
     /**
-     * @return null|object
+     * @return null|object|Access
      * @throws \yii\base\InvalidConfigException
      */
     public function getPodiumAccess()
