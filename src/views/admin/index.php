@@ -6,7 +6,7 @@
         <div class="col-xs-6 col-lg-4">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h2>Users</h2>
+                    <h3 class="panel-title"><?= 1 ?></h3>
                 </div>
             </div>
         </div><!--/.col-xs-6.col-lg-4-->

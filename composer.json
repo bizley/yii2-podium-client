@@ -20,7 +20,8 @@
     "bizley/podium-api": "dev-master",
     "php": ">=7.1.0",
     "yiisoft/yii2": ">=2.0.15.1 <2.1.0",
-    "yiisoft/yii2-bootstrap": "^2.0"
+    "yiisoft/yii2-bootstrap": "^2.0",
+    "yiisoft/yii2-twig": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.3",
