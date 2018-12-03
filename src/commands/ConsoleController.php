@@ -137,7 +137,7 @@ class ConsoleController extends Controller
             $this->stdout(": Podium database tables not found!\n", Console::FG_RED);
             $this->stdout('>> Please run "');
             $this->stdout('php yii migrate', Console::FG_YELLOW);
-            $this->stdout("\" first.\n");
+            $this->stdout("\" first.\n\n");
 
             return false;
         }
