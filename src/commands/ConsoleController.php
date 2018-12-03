@@ -133,7 +133,7 @@ class ConsoleController extends Controller
     {
         if (Yii::$app->db->getSchema()->getTableSchema('{{%podium_config}}') === null) {
             $this->stdout('>> ', Console::FG_RED);
-            $this->stdout('ERROR', Console::FG_RED, Console::NEGATIVE);
+            $this->stdout(' ERROR ', Console::FG_RED, Console::NEGATIVE);
             $this->stdout(": Podium database tables not found!\n", Console::FG_RED);
             $this->stdout('>> Please run "');
             $this->stdout('php yii migrate', Console::FG_YELLOW);
@@ -154,7 +154,7 @@ class ConsoleController extends Controller
             $this->renderLine('> Checking current permissions');
 
             if ($this->detectPermissions()) {
-                $this->stdout("FOUND\n", Console::FG_YELLOW, Console::NEGATIVE);
+                $this->stdout(" FOUND \n", Console::FG_YELLOW, Console::NEGATIVE);
                 $this->stdout("> Please back up your database first before you continue with permissions purge.\n", Console::FG_YELLOW);
 
                 if ($this->confirm('> Would you like to reset current Podium permissions (all members will lose their roles)?')) {
@@ -162,25 +162,25 @@ class ConsoleController extends Controller
 
                     $this->getAccess()->removeAll();
 
-                    $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+                    $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
                 } else {
                     $this->stdout(">> Current Podium permissions kept.\n", Console::FG_YELLOW);
 
                     return true;
                 }
             } else {
-                $this->stdout("EMPTY\n", Console::FG_GREEN, Console::NEGATIVE);
+                $this->stdout(" EMPTY \n", Console::FG_GREEN, Console::NEGATIVE);
             }
 
             $this->renderLine('> Setting Podium permissions');
 
             if (!$this->savePermissions()) {
-                $this->stdout("ERROR\n", Console::FG_RED, Console::NEGATIVE);
+                $this->stdout(" ERROR \n", Console::FG_RED, Console::NEGATIVE);
 
                 return false;
             }
 
-            $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+            $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
         } else {
             $this->stdout(">> Podium permissions setting skipped.\n");
         }
@@ -197,11 +197,11 @@ class ConsoleController extends Controller
         if (empty($this->getAccess()->getRoles())) {
             if ($showOutput) {
                 $this->stdout('>> ', Console::FG_RED);
-                $this->stdout('ERROR', Console::FG_RED, Console::NEGATIVE);
+                $this->stdout(' ERROR ', Console::FG_RED, Console::NEGATIVE);
                 $this->stdout(": Podium permissions not set!\n", Console::FG_RED);
                 $this->stdout('>> Please run "');
                 $this->stdout("php yii {$this->module->id}/console/perms", Console::FG_YELLOW);
-                $this->stdout("\" first.\n");
+                $this->stdout("\" first.\n\n");
             }
 
             return false;
@@ -246,7 +246,7 @@ class ConsoleController extends Controller
      */
     protected function setExistingMemberAsAdmin(string $member, string $adminId): void
     {
-        $this->stdout("FOUND\n", Console::FG_YELLOW, Console::NEGATIVE);
+        $this->stdout(" FOUND \n", Console::FG_YELLOW, Console::NEGATIVE);
 
         if ($this->confirm("> Would you like to make member \"{$member}\" the Podium Admin?")) {
             $this->renderLine("> Assigning Admin role for \"{$member}\"");
@@ -254,7 +254,7 @@ class ConsoleController extends Controller
             $this->assignAdmin($adminId);
 
             Yii::warning("Assigning Podium Admin role for member with ID \"{$adminId}\" and username \"{$member}\".", 'podium');
-            $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+            $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
         } else {
             $this->stdout(">> Podium administrator has not been set.\n", Console::FG_YELLOW);
         }
@@ -266,7 +266,7 @@ class ConsoleController extends Controller
      */
     protected function setNewMemberAsAdmin(string $adminId): void
     {
-        $this->stdout("NONE\n", Console::FG_GREEN, Console::NEGATIVE);
+        $this->stdout(" NONE \n", Console::FG_GREEN, Console::NEGATIVE);
 
         while (true) {
             $username = $this->prompt('> Enter new administrator username (or just press enter to resign):');
@@ -281,16 +281,16 @@ class ConsoleController extends Controller
             $registration = $this->registerMember($adminId, $username);
 
             if ($registration->result) {
-                $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+                $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
                 $this->renderLine("> Assigning Admin role for \"{$username}\"");
 
                 $this->assignAdmin($adminId);
 
                 Yii::warning("Registering new Podium administrator with User ID \"{$adminId}\" and username \"{$username}\".", 'podium');
-                $this->stdout("DONE\n", Console::FG_GREEN, Console::NEGATIVE);
+                $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
                 break;
             }
-            $this->stdout("ERROR\n", Console::FG_RED, Console::NEGATIVE);
+            $this->stdout(" ERROR \n", Console::FG_RED, Console::NEGATIVE);
             if (empty($registration->errors)) {
                 Yii::error("Unknown error while registering new Podium administrator with ID \"{$adminId}\" and username \"{$username}\".", 'podium');
                 break;
