@@ -1,40 +1,148 @@
+{{ register_asset_bundle('bizley/podium/client/assets/ChartJsAsset') }}
 <div class="col-xs-12 col-sm-9">
     <p class="pull-right visible-xs">
-        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">{{ Yii.t('podium.client.label', 'nav.toggle') }}</button>
     </p>
     <div class="row">
-        <div class="col-xs-6 col-lg-4">
-            <div class="panel panel-default">
+        <div class="col-xs-12">
+            <div class="panel panel-default panel-admin2">
                 <div class="panel-body">
-                    <h3 class="panel-title">111</h3>
-                </div>
+                    <h3 class="panel-title">
+                        <span class="badge pull-right"><i class="glyphicon glyphicon-user"></i> 112</span>
+                        <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.members') }}</a>
+                    </h3>
+                    <canvas id="adminMemberChart" width="100%" height="100"></canvas>
+                    {{ void(this.registerJs("
+                    var ctx = document.getElementById(\"adminMemberChart\").getContext(\"2d\");
+                    var gradient = ctx.createLinearGradient(0, 0, 0, 120);
+        gradient.addColorStop(0, Chart.helpers.color('#000').alpha(0.3).rgbString());
+        gradient.addColorStop(1, Chart.helpers.color('#000').alpha(0).rgbString());
+var data = [30, 35, 45, 65, 35, 50, 40, 60, 35, 45];
 
+                    var mainConfig = {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October'],
+                datasets: [{
+                    label: 'Orders',
+                    borderColor: '#000',
+                    borderWidth: 3,
+                    backgroundColor: gradient,
+                    pointBackgroundColor: '#000',
+                    data: data,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                    display: false,
+                    text: 'Stacked Area'
+                },
+                tooltips: {
+                    enabled: true,
+                    intersect: false,
+                    mode: 'nearest',
+                    bodySpacing: 5,
+                    yPadding: 10,
+                    xPadding: 10,
+                    caretPadding: 0,
+                    displayColors: false,
+                    backgroundColor: '#000',
+                    titleFontColor: '#ffffff',
+                    cornerRadius: 4,
+                    footerSpacing: 0,
+                    titleSpacing: 0
+                },
+                legend: {
+                    display: false,
+                    labels: {
+                        usePointStyle: false
+                    }
+                },
+                hover: {
+                    mode: 'index'
+                },
+                scales: {
+                    xAxes: [{
+                        display: false,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Month'
+                        },
+                        ticks: {
+                            display: false,
+                            beginAtZero: true,
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Value'
+                        },
+                        gridLines: {
+                            color: '#eef2f9',
+                            drawBorder: false,
+                            offsetGridLines: true,
+                            drawTicks: false
+                        },
+                        ticks: {
+                            max: 50,
+                            display: false,
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                elements: {
+                    point: {
+                        radius: 0,
+                        borderWidth: 0,
+                        hoverRadius: 0,
+                        hoverBorderWidth: 0
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                }
+            }
+        };
+
+        var chart = new Chart(ctx, mainConfig);
+
+
+")) }}
+                </div>
             </div>
-        </div><!--/.col-xs-6.col-lg-4-->
-        <div class="col-xs-6 col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!--/.col-xs-6.col-lg-4-->
-        <div class="col-xs-6 col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!--/.col-xs-6.col-lg-4-->
-        <div class="col-xs-6 col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!--/.col-xs-6.col-lg-4-->
-        <div class="col-xs-6 col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!--/.col-xs-6.col-lg-4-->
-        <div class="col-xs-6 col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!--/.col-xs-6.col-lg-4-->
-    </div><!--/row-->
-</div><!--/.col-xs-12.col-sm-9-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default panel-admin">
+                <div class="panel-body">
+                    <h3 class="panel-title">
+                        <span class="badge pull-right"><i class="glyphicon glyphicon-folder-open"></i> 34</span>
+                        <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.threads') }}</a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default panel-admin">
+                <div class="panel-body">
+                    <h3 class="panel-title">
+                        <span class="badge pull-right"><i class="glyphicon glyphicon-comment"></i> 749</span>
+                        <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.posts') }}</a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

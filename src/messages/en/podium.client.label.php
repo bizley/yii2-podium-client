@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'admin.members' => 'Members',
+    'admin.posts' => 'Posts',
+    'admin.threads' => 'Threads',
     'nav.administration' => 'Administration',
     'nav.toggle' => 'Toggle Navigation',
     'setting.maintenance.mode' => 'Maintenance Mode',

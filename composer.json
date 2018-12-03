@@ -19,6 +19,7 @@
   "require": {
     "bizley/podium-api": "dev-master",
     "php": ">=7.1.0",
+    "npm-asset/chart.js": "^2.7",
     "yiisoft/yii2": ">=2.0.15.1 <2.1.0",
     "yiisoft/yii2-bootstrap": "^2.0",
     "yiisoft/yii2-twig": "^2.0"
