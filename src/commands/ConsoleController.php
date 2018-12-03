@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace bizley\podium\client\commands;
 
 use bizley\podium\api\base\PodiumResponse;
+use bizley\podium\api\interfaces\MembershipInterface;
 use bizley\podium\api\Podium;
 use bizley\podium\client\base\Access;
 use bizley\podium\client\enums\Role;
@@ -224,6 +225,7 @@ class ConsoleController extends Controller
     protected function configureAdmin(): void
     {
         $adminId = $this->prompt('> Enter database ID of user who should become Podium administrator (or just press enter to skip):');
+
         if ($adminId === '') {
             $this->stdout(">> Podium administrator has not been set.\n", Console::FG_YELLOW);
         } else {
@@ -240,20 +242,22 @@ class ConsoleController extends Controller
     }
 
     /**
-     * @param string $member
+     * @param MembershipInterface $member
      * @param string $adminId
      * @throws \Exception
      */
-    protected function setExistingMemberAsAdmin(string $member, string $adminId): void
+    protected function setExistingMemberAsAdmin(MembershipInterface $member, string $adminId): void
     {
         $this->stdout(" FOUND \n", Console::FG_YELLOW, Console::NEGATIVE);
 
-        if ($this->confirm("> Would you like to make member \"{$member}\" the Podium Admin?")) {
-            $this->renderLine("> Assigning Admin role for \"{$member}\"");
+        $name = $member->getUsername();
 
-            $this->assignAdmin($adminId);
+        if ($this->confirm("> Would you like to make member \"{$name}\" the Podium Admin?")) {
+            $this->renderLine("> Assigning Admin role for \"{$name}\"");
 
-            Yii::warning("Assigning Podium Admin role for member with ID \"{$adminId}\" and username \"{$member}\".", 'podium');
+            $this->assignAdmin($member->getId());
+
+            Yii::warning("Assigning Podium Admin role for member with ID \"{$adminId}\" and username \"{$name}\".", 'podium');
             $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
         } else {
             $this->stdout(">> Podium administrator has not been set.\n", Console::FG_YELLOW);
@@ -290,11 +294,14 @@ class ConsoleController extends Controller
                 $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
                 break;
             }
+
             $this->stdout(" ERROR \n", Console::FG_RED, Console::NEGATIVE);
+
             if (empty($registration->errors)) {
                 Yii::error("Unknown error while registering new Podium administrator with ID \"{$adminId}\" and username \"{$username}\".", 'podium');
                 break;
             }
+
             foreach ($registration->errors as $attribute => $errors) {
                 foreach ($errors as $error) {
                     $this->stdout(">> {$error}\n", Console::FG_RED);
@@ -328,11 +335,10 @@ class ConsoleController extends Controller
 
     /**
      * @param string $adminId
-     * @return null|string
+     * @return MembershipInterface|null
      */
-    protected function findMember(string $adminId): ?string
+    protected function findMember(string $adminId): ?MembershipInterface
     {
-        $member = $this->getApi()->member->getMemberByUserId($adminId);
-        return $member !== null ? $member->getUsername() : null;
+        return $this->getApi()->member->getMemberByUserId($adminId);
     }
 }
