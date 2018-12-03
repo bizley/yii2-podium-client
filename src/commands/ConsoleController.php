@@ -284,7 +284,7 @@ class ConsoleController extends Controller
                 $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
                 $this->renderLine("> Assigning Admin role for \"{$username}\"");
 
-                $this->assignAdmin($adminId);
+                $this->assignAdmin($registration->data['id']);
 
                 Yii::warning("Registering new Podium administrator with User ID \"{$adminId}\" and username \"{$username}\".", 'podium');
                 $this->stdout(" DONE \n", Console::FG_GREEN, Console::NEGATIVE);
@@ -317,13 +317,13 @@ class ConsoleController extends Controller
     }
 
     /**
-     * @param string $adminId
+     * @param int $memberId
      * @throws \Exception
      */
-    protected function assignAdmin(string $adminId): void
+    protected function assignAdmin(int $memberId): void
     {
-        $this->getAccess()->revokeAll($adminId); // only one role per member
-        $this->getAccess()->assign($this->getAccess()->getRole(Role::ADMIN), $adminId);
+        $this->getAccess()->revokeAll($memberId); // only one role per member
+        $this->getAccess()->assign($this->getAccess()->getRole(Role::ADMIN), $memberId);
     }
 
     /**

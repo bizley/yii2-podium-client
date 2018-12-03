@@ -30,9 +30,9 @@ class PodiumAccessControl extends \yii\filters\AccessControl
      */
     public function init()
     {
-        parent::init();
-
         $this->podium = Instance::ensure($this->podium, PodiumClient::class);
         $this->ruleConfig['podium'] = $this->podium;
+
+        parent::init();
     }
 }
