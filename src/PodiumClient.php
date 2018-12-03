@@ -7,9 +7,13 @@ namespace bizley\podium\client;
 use bizley\podium\api\Podium;
 use bizley\podium\client\base\Access;
 use bizley\podium\client\base\Config;
+use Yii;
 use yii\base\Module;
+use yii\bootstrap\Html;
 use yii\console\Application;
+use yii\helpers\Url;
 use yii\i18n\PhpMessageSource;
+use yii\twig\ViewRenderer;
 
 /**
  * Class PodiumClient
@@ -51,7 +55,7 @@ class PodiumClient extends Module
 
         $this->setVersion('1.0.0');
 
-        if (\Yii::$app instanceof Application) {
+        if (Yii::$app instanceof Application) {
             $this->controllerNamespace = 'bizley\podium\client\commands';
         }
 
@@ -60,6 +64,7 @@ class PodiumClient extends Module
         $this->setPodiumAccessComponent();
 
         $this->prepareTranslations();
+        $this->prepareTwigRenderer();
     }
 
     /**
@@ -115,11 +120,26 @@ class PodiumClient extends Module
 
     public function prepareTranslations(): void
     {
-        \Yii::$app->getI18n()->translations['podium.client.*'] = [
+        Yii::$app->getI18n()->translations['podium.client.*'] = [
             'class' => PhpMessageSource::class,
             'sourceLanguage' => 'en',
             'forceTranslation' => true,
             'basePath' => __DIR__ . '/messages',
+        ];
+    }
+
+    public function prepareTwigRenderer(): void
+    {
+        Yii::$app->getView()->renderers['twig'] = [
+            'class' => ViewRenderer::class,
+            'cachePath' => '@runtime/Twig/cache',
+            'options' => ['auto_reload' => true],
+            'globals' => [
+                'Html' => ['class' => Html::class],
+                'Url' => ['class' => Url::class],
+                'Yii' => ['class' => Yii::class],
+            ],
+            'uses' => ['yii\bootstrap'],
         ];
     }
 }

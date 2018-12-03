@@ -1,0 +1,22 @@
+{{ use('yii/bootstrap') }}
+{{ nav_bar_begin({
+    'brandLabel': app.name,
+    'brandUrl': app.homeUrl,
+    'options': {
+        'class': 'navbar navbar-fixed-top navbar-inverse',
+    },
+}) }}
+    {{ nav_widget({
+        'options': {'class': 'nav navbar-nav'},
+        'items': [
+            {
+                'label': 'Home',
+                'url': ['/site/index'],
+            },
+            {
+                'label': Yii.t('podium.client.label', 'nav.administration'),
+                'url': ['admin/index'],
+            },
+        ],
+    }) }}
+{{ nav_bar_end() }}

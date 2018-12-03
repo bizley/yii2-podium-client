@@ -13,7 +13,7 @@ use bizley\podium\client\filters\PodiumAccessControl;
  */
 class AdminController extends \yii\web\Controller
 {
-    public $layout = 'admin';
+    public $layout = 'admin.twig';
 
     /**
      * @return array
@@ -39,6 +39,6 @@ class AdminController extends \yii\web\Controller
      */
     public function actionIndex(): string
     {
-        return $this->render('index');
+        return $this->render('index.twig');
     }
 }

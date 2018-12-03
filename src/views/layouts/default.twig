@@ -1,0 +1,30 @@
+{{ register_asset_bundle('bizley/podium/client/assets/PodiumAsset') }}
+{{ void(this.beginPage()) }}
+<!DOCTYPE html>
+<html lang="{{ app.language }}">
+<head>
+    <meta charset="{{ app.charset }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{ Html.csrfMetaTags | raw }}
+    <title>{{ Html.encode(this.title) }}</title>
+    {{ void(this.head) }}
+</head>
+<body>
+{{ void(this.beginBody()) }}
+
+{% include "nav.twig" %}
+
+<div class="container">
+    <div class="row row-offcanvas row-offcanvas-right">
+        {{ content | raw }}
+        {% include "right-menu.twig" %}
+    </div>
+
+    {% include "footer.twig" %}
+</div>
+
+{{ void(this.endBody()) }}
+</body>
+</html>
+{{ void(this.endPage()) }}

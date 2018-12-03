@@ -1,0 +1,10 @@
+{% set currentYear = "now" | date("Y") %}
+{% set startYear = 2018 %}
+{% set copyYears = startYear %}
+{% if currentYear > startYear %}
+    {% set copyYears = copyYears ~ '-' ~ currentYear %}
+{% endif %}
+<hr>
+<footer>
+    <p>&copy; {{ copyYears }} Podium v{{ this.context.module.getVersion() }}</p>
+</footer>

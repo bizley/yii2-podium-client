@@ -10,6 +10,8 @@ namespace bizley\podium\client\controllers;
  */
 class MainController extends \yii\web\Controller
 {
+    public $layout = 'default.twig';
+
     /**
      * @return array
      */
@@ -33,6 +35,6 @@ class MainController extends \yii\web\Controller
      */
     public function actionIndex(): string
     {
-        return $this->render('index');
+        return $this->render('index.twig');
     }
 }
