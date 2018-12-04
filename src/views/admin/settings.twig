@@ -1,3 +1,5 @@
+{{ use('bizley/podium/client/widgets/setting') }}
+{{ set(this, 'title', Yii.t('podium.client.header', 'admin.settings')) }}
 <h1>
     <i class="glyphicon glyphicon-cog"></i>
     {{ Yii.t('podium.client.header', 'admin.settings') }}
@@ -5,15 +7,9 @@
         <i class="glyphicon glyphicon-menu-left"></i> <a href="{{ path(['admin/index']) }}">{{ Yii.t('podium.client.link', 'admin.dashboard') }}</a>
     </small>
 </h1>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <h3 class="panel-title">
-                    <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.members') }}</a>
-                </h3>
-
-            </div>
-        </div>
-    </div>
-</div>
+{% for setting, type in settings %}
+    {{ setting_widget({
+        'data': setting,
+        'type': type,
+    }) }}
+{% endfor %}

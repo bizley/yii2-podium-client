@@ -7,5 +7,4 @@ return [
     'setting.minimum.posts.for.hot' => 'Minimum Number Of Posts For Hot Thread',
     'setting.podium.name' => 'Podium Name',
     'setting.polls.allowed' => 'Polls Allowed',
-    'setting.registration.allowed' => 'Registration Allowed',
 ];

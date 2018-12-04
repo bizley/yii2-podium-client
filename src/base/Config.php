@@ -7,6 +7,7 @@ namespace bizley\podium\client\base;
 use bizley\podium\client\enums\Setting;
 use bizley\podium\client\interfaces\ConfigInterface;
 use bizley\podium\client\repos\ConfigRepo;
+use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 
@@ -29,6 +30,7 @@ class Config extends Component implements ConfigInterface
     public function init(): void
     {
         parent::init();
+
         if (!\is_array($this->settings)) {
             throw new InvalidConfigException('Settings property must be an array');
         }
@@ -41,16 +43,14 @@ class Config extends Component implements ConfigInterface
     {
         return [
             Setting::NAME => 'Podium',
-            Setting::MAINTENANCE_MODE => '0',
             Setting::MEMBERS_VISIBLE => '1',
             Setting::POLLS_ALLOWED => '1',
             Setting::MIN_POSTS_FOR_HOT => '20',
             Setting::MERGE_POSTS => '1',
-            Setting::REGISTRATION_ALLOWED => '1',
         ];
     }
 
-    private $_config;
+    private $_config = [];
 
     /**
      * @param string $param
@@ -63,10 +63,13 @@ class Config extends Component implements ConfigInterface
         if (array_key_exists($param, $this->settings)) {
             throw new FixedSettingException("Fixed configuration prevents changing '{$param}' parameter");
         }
+
         if ($this->storeValue($param, $value)) {
             $this->_config[$param] = $value;
+
             return true;
         }
+
         return false;
     }
 
@@ -77,6 +80,7 @@ class Config extends Component implements ConfigInterface
     public function getValue(string $param): ?string
     {
         $defaultValues = $this->getDefaultValues();
+
         return $this->getRawValue($param, $defaultValues[$param] ?? null, true);
     }
 
@@ -91,9 +95,11 @@ class Config extends Component implements ConfigInterface
         if ($cached && array_key_exists($param, $this->_config)) {
             return $this->_config[$param];
         }
+
         if (array_key_exists($param, $this->settings)) {
             return (string) $this->settings[$param];
         }
+
         return $this->retrieveValue($param, $default);
     }
 
@@ -105,14 +111,19 @@ class Config extends Component implements ConfigInterface
     protected function storeValue(string $param, string $value): bool
     {
         $setting = ConfigRepo::findOne(['param' => $param]);
+
         if ($setting === null) {
             $setting = new ConfigRepo(['param' => $param]);
         }
+
         $setting->value = $value;
+
         if (!$setting->save()) {
-            \Yii::error(['config.store.value.error', $setting->errors], 'podium');
+            Yii::error(['config.store.value.error', $setting->errors], 'podium');
+
             return false;
         }
+
         return true;
     }
 
@@ -124,6 +135,7 @@ class Config extends Component implements ConfigInterface
     protected function retrieveValue(string $param, ?string $default = null): ?string
     {
         $setting = ConfigRepo::findOne(['param' => $param]);
+
         return $setting !== null ? $setting->value : $default;
     }
 }

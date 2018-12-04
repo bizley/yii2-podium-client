@@ -1,0 +1,24 @@
+{{ use('yii/bootstrap/ActiveForm') }}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <h3 class="panel-title">
+                        <i class="glyphicon glyphicon-chevron-right"></i> {{ model.description }}
+                    </h3>
+                </div>
+                {% set form = active_form_begin({'layout': 'inline'}) %}
+                {% if type == 'radio' %}
+                    {{ form.field(model, name).radioList([
+                        Yii.t('yii', 'No'),
+                        Yii.t('yii', 'Yes'),
+                    ])|raw }}
+                {% else %}
+                    {{ form.field(model, name)|raw }}
+                {% endif %}
+                {{ active_form_end() }}
+            </div>
+        </div>
+    </div>
+</div>
