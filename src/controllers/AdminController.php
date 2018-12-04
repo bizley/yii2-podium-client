@@ -41,4 +41,12 @@ class AdminController extends \yii\web\Controller
     {
         return $this->render('index.twig');
     }
+
+    /**
+     * @return string
+     */
+    public function actionSettings(): string
+    {
+        return $this->render('settings.twig');
+    }
 }

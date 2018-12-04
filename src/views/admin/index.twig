@@ -1,44 +1,39 @@
 {{ use('bizley/podium/client/widgets/chart') }}
-<div class="col-xs-12 col-sm-9">
-    <p class="pull-right visible-xs">
-        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">{{ Yii.t('podium.client.label', 'nav.toggle') }}</button>
-    </p>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3 class="panel-title">
-                        <span class="badge pull-right"><i class="glyphicon glyphicon-user"></i> 112</span>
-                        <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.members') }}</a>
-                    </h3>
-                    {{ chart_widget({data: [2, 12, 23, 8, 11, 24, 33, 31, 27, 21, 25, 28]}) }}
-                </div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3 class="panel-title">
+                    <span class="badge pull-right"><i class="glyphicon glyphicon-user"></i> 112</span>
+                    <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.members') }}</a>
+                </h3>
+                {{ chart_widget({data: [2, 12, 23, 8, 11, 24, 33, 31, 27, 21, 25, 28]}) }}
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3 class="panel-title">
-                        <span class="badge pull-right"><i class="glyphicon glyphicon-folder-open"></i> 34</span>
-                        <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.threads') }}</a>
-                    </h3>
-                    {{ chart_widget({data: [30, 35, 45, 65, 35, 50, 40, 60, 35, 45, 12, 27]}) }}
-                </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3 class="panel-title">
+                    <span class="badge pull-right"><i class="glyphicon glyphicon-folder-open"></i> 34</span>
+                    <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.threads') }}</a>
+                </h3>
+                {{ chart_widget({data: [30, 35, 45, 65, 35, 50, 40, 60, 35, 45, 12, 27]}) }}
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3 class="panel-title">
-                        <span class="badge pull-right"><i class="glyphicon glyphicon-comment"></i> 749</span>
-                        <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.posts') }}</a>
-                    </h3>
-                    {{ chart_widget({data: [12, 125, 87, 239, 345, 173, 99, 315, 366, 328, 259, 286]}) }}
-                </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3 class="panel-title">
+                    <span class="badge pull-right"><i class="glyphicon glyphicon-comment"></i> 749</span>
+                    <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.posts') }}</a>
+                </h3>
+                {{ chart_widget({data: [12, 125, 87, 239, 345, 173, 99, 315, 366, 328, 259, 286]}) }}
             </div>
         </div>
     </div>
