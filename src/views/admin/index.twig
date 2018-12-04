@@ -1,4 +1,4 @@
-{{ register_asset_bundle('bizley/podium/client/assets/ChartJsAsset') }}
+{{ use('bizley/podium/client/widgets/chart') }}
 <div class="col-xs-12 col-sm-9">
     <p class="pull-right visible-xs">
         <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">{{ Yii.t('podium.client.label', 'nav.toggle') }}</button>
@@ -11,112 +11,7 @@
                         <span class="badge pull-right"><i class="glyphicon glyphicon-user"></i> 112</span>
                         <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.members') }}</a>
                     </h3>
-                    <canvas id="adminMemberChart" width="100%" height="100"></canvas>
-                    {{ void(this.registerJs("
-                    var ctx = document.getElementById(\"adminMemberChart\").getContext(\"2d\");
-                    var gradient = ctx.createLinearGradient(0, 0, 0, 120);
-        gradient.addColorStop(0, Chart.helpers.color('#000').alpha(0.3).rgbString());
-        gradient.addColorStop(1, Chart.helpers.color('#000').alpha(0).rgbString());
-var data = [30, 35, 45, 65, 35, 50, 40, 60, 35, 45];
-
-                    var mainConfig = {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October'],
-                datasets: [{
-                    label: 'Orders',
-                    borderColor: '#000',
-                    borderWidth: 3,
-                    backgroundColor: gradient,
-                    pointBackgroundColor: '#000',
-                    data: data,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                title: {
-                    display: false,
-                    text: 'Stacked Area'
-                },
-                tooltips: {
-                    enabled: true,
-                    intersect: false,
-                    mode: 'nearest',
-                    bodySpacing: 5,
-                    yPadding: 10,
-                    xPadding: 10,
-                    caretPadding: 0,
-                    displayColors: false,
-                    backgroundColor: '#000',
-                    titleFontColor: '#ffffff',
-                    cornerRadius: 4,
-                    footerSpacing: 0,
-                    titleSpacing: 0
-                },
-                legend: {
-                    display: false,
-                    labels: {
-                        usePointStyle: false
-                    }
-                },
-                hover: {
-                    mode: 'index'
-                },
-                scales: {
-                    xAxes: [{
-                        display: false,
-                        scaleLabel: {
-                            display: false,
-                            labelString: 'Month'
-                        },
-                        ticks: {
-                            display: false,
-                            beginAtZero: true,
-                        }
-                    }],
-                    yAxes: [{
-                        display: false,
-                        scaleLabel: {
-                            display: false,
-                            labelString: 'Value'
-                        },
-                        gridLines: {
-                            color: '#eef2f9',
-                            drawBorder: false,
-                            offsetGridLines: true,
-                            drawTicks: false
-                        },
-                        ticks: {
-                            max: 50,
-                            display: false,
-                            beginAtZero: true
-                        }
-                    }]
-                },
-                elements: {
-                    point: {
-                        radius: 0,
-                        borderWidth: 0,
-                        hoverRadius: 0,
-                        hoverBorderWidth: 0
-                    }
-                },
-                layout: {
-                    padding: {
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        bottom: 0
-                    }
-                }
-            }
-        };
-
-        var chart = new Chart(ctx, mainConfig);
-
-
-")) }}
+                    {{ chart_widget({data: [2, 12, 23, 8, 11, 24, 33, 31, 27, 21, 25, 28]}) }}
                 </div>
             </div>
         </div>
@@ -129,6 +24,7 @@ var data = [30, 35, 45, 65, 35, 50, 40, 60, 35, 45];
                         <span class="badge pull-right"><i class="glyphicon glyphicon-folder-open"></i> 34</span>
                         <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.threads') }}</a>
                     </h3>
+                    {{ chart_widget({data: [30, 35, 45, 65, 35, 50, 40, 60, 35, 45, 12, 27]}) }}
                 </div>
             </div>
         </div>
@@ -141,6 +37,7 @@ var data = [30, 35, 45, 65, 35, 50, 40, 60, 35, 45];
                         <span class="badge pull-right"><i class="glyphicon glyphicon-comment"></i> 749</span>
                         <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.posts') }}</a>
                     </h3>
+                    {{ chart_widget({data: [12, 125, 87, 239, 345, 173, 99, 315, 366, 328, 259, 286]}) }}
                 </div>
             </div>
         </div>
