@@ -13,10 +13,10 @@ use Yii;
  */
 final class Setting extends BaseEnum
 {
-    public const POLLS_ALLOWED = 'polls.allowed';
-    public const MIN_POSTS_FOR_HOT = 'min.posts.for.hot';
-    public const MEMBERS_VISIBLE = 'members.visible';
-    public const MERGE_POSTS = 'merge.posts';
+    public const POLLS_ALLOWED = 'polls_allowed';
+    public const MIN_POSTS_FOR_HOT = 'min_posts_for_hot';
+    public const MEMBERS_VISIBLE = 'members_visible';
+    public const MERGE_POSTS = 'merge_posts';
     public const NAME = 'name';
 
     /**

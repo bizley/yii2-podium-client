@@ -7,9 +7,10 @@
         <i class="glyphicon glyphicon-menu-left"></i> <a href="{{ path(['admin/index']) }}">{{ Yii.t('podium.client.link', 'admin.dashboard') }}</a>
     </small>
 </h1>
-{% for setting, type in settings %}
+{% for name, type in model.panels() %}
     {{ setting_widget({
-        'data': setting,
+        'model': model,
+        'name': name,
         'type': type,
     }) }}
 {% endfor %}

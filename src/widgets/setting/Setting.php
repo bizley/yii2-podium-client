@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\widgets\setting;
 
-use bizley\podium\client\base\Config;
-use bizley\podium\client\enums\Setting as SettingEnum;
-use yii\base\DynamicModel;
+use bizley\podium\client\forms\SettingsForm;
 use yii\base\Widget;
 
 /**
@@ -16,9 +14,14 @@ use yii\base\Widget;
 class Setting extends Widget
 {
     /**
+     * @var SettingsForm
+     */
+    public $model;
+
+    /**
      * @var string
      */
-    public $data;
+    public $name;
 
     /**
      * @var string
@@ -26,27 +29,14 @@ class Setting extends Widget
     public $type;
 
     /**
-     * @return Config
-     */
-    public function getConfig(): Config
-    {
-        return $this->getView()->context->module->getPodiumConfig();
-    }
-
-    /**
      * @return string
      */
     public function run(): string
     {
-        $model = new DynamicModel([
-            'description' => SettingEnum::get($this->data),
-            $this->data => $this->getConfig()->getValue($this->data),
-        ]);
-
         return $this->render('view.twig', [
             'type' => $this->type,
-            'model' => $model,
-            'name' => $this->data,
+            'model' => $this->model,
+            'name' => $this->name,
         ]);
     }
 }

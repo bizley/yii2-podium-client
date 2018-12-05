@@ -6,6 +6,7 @@ namespace bizley\podium\client;
 
 use bizley\podium\api\Podium;
 use bizley\podium\client\base\Access;
+use bizley\podium\client\base\Notify;
 use bizley\podium\client\base\Config;
 use Yii;
 use yii\base\Module;
@@ -18,6 +19,11 @@ use yii\twig\ViewRenderer;
 /**
  * Class PodiumClient
  * @package bizley\podium\client
+ *
+ * @property Podium $api
+ * @property Access $access
+ * @property Notify $notify
+ * @property Config $config
  */
 class PodiumClient extends Module
 {
@@ -34,17 +40,22 @@ class PodiumClient extends Module
     /**
      * @var array|string|null
      */
-    public $apiComponent;
+    public $apiConfig;
 
     /**
      * @var array|string|null
      */
-    public $configComponent;
+    public $configConfig;
 
     /**
      * @var array|string|null
      */
-    public $accessComponent;
+    public $accessConfig;
+
+    /**
+     * @var array|string|null
+     */
+    public $notifyConfig;
 
     /**
      * @throws \yii\base\InvalidConfigException
@@ -59,9 +70,10 @@ class PodiumClient extends Module
             $this->controllerNamespace = 'bizley\podium\client\commands';
         }
 
-        $this->setPodiumApiComponent();
-        $this->setPodiumConfigComponent();
-        $this->setPodiumAccessComponent();
+        $this->setApi();
+        $this->setConfig();
+        $this->setAccess();
+        $this->setNotify();
 
         $this->prepareTranslations();
         $this->prepareTwigRenderer();
@@ -70,52 +82,69 @@ class PodiumClient extends Module
     /**
      * @throws \yii\base\InvalidConfigException
      */
-    protected function setPodiumApiComponent(): void
+    protected function setApi(): void
     {
-        $this->set('podiumApi', $this->apiComponent ?? ['class' => Podium::class]);
+        $this->set('api', $this->apiConfig ?? ['class' => Podium::class]);
     }
 
     /**
      * @return null|object|Podium
      * @throws \yii\base\InvalidConfigException
      */
-    public function getPodiumApi()
+    public function getApi()
     {
-        return $this->get('podiumApi');
+        return $this->get('api');
     }
 
     /**
      * @throws \yii\base\InvalidConfigException
      */
-    protected function setPodiumConfigComponent(): void
+    protected function setConfig(): void
     {
-        $this->set('podiumConfig', $this->configComponent ?? ['class' => Config::class]);
+        $this->set('config', $this->configConfig ?? ['class' => Config::class]);
     }
 
     /**
      * @return null|object|Config
      * @throws \yii\base\InvalidConfigException
      */
-    public function getPodiumConfig()
+    public function getConfig()
     {
-        return $this->get('podiumConfig');
+        return $this->get('config');
     }
 
     /**
      * @throws \yii\base\InvalidConfigException
      */
-    protected function setPodiumAccessComponent(): void
+    protected function setAccess(): void
     {
-        $this->set('podiumAccess', $this->accessComponent ?? ['class' => Access::class]);
+        $this->set('access', $this->accessConfig ?? ['class' => Access::class]);
     }
 
     /**
      * @return null|object|Access
      * @throws \yii\base\InvalidConfigException
      */
-    public function getPodiumAccess()
+    public function getAccess()
     {
-        return $this->get('podiumAccess');
+        return $this->get('access');
+    }
+
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function setNotify(): void
+    {
+        $this->set('notify', $this->notifyConfig ?? ['class' => Notify::class]);
+    }
+
+    /**
+     * @return null|object|Notify
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getAlert()
+    {
+        return $this->get('notify');
     }
 
     public function prepareTranslations(): void

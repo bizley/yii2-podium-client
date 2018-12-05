@@ -57,8 +57,8 @@ class PodiumAccessRule extends \yii\filters\AccessRule
                 }
 
                 if ($user->getId() !== null) {
-                    $member = $this->podium->getPodiumApi()->getMember()->getMemberByUserId($user->getId());
-                    if ($member && $this->podium->getPodiumAccess()->check($member, $item, $roleParams)) {
+                    $member = $this->podium->getApi()->getMember()->getMemberByUserId($user->getId());
+                    if ($member && $this->podium->getAccess()->check($member, $item, $roleParams)) {
                         return true;
                     }
                 }

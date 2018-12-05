@@ -1,6 +1,4 @@
-{{ register_asset_bundle('bizley/podium/client/assets/PodiumAsset') }}
-{{ void(this.beginPage()) }}
-<!DOCTYPE html>
+{{ register_asset_bundle('bizley/podium/client/assets/PodiumAsset') }}{{ void(this.beginPage()) }}<!DOCTYPE html>
 <html lang="{{ app.language }}">
 <head>
     <meta charset="{{ app.charset }}">
@@ -21,6 +19,8 @@
             <p class="pull-right visible-xs">
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">{{ Yii.t('podium.client.label', 'nav.toggle') }}</button>
             </p>
+            {{ use('bizley/podium/client/widgets/notify') }}
+            {{ notify_widget() }}
             {{ content|raw }}
         </div>
         {% include "admin-menu.twig" %}

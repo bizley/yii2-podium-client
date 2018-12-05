@@ -5,7 +5,7 @@
             <div class="panel-body">
                 <div class="form-group">
                     <h3 class="panel-title">
-                        <i class="glyphicon glyphicon-chevron-right"></i> {{ model.description }}
+                        <i class="glyphicon glyphicon-chevron-right"></i> {{ model.getAttributeLabel(name) }}
                     </h3>
                 </div>
                 {% set form = active_form_begin({'layout': 'inline'}) %}
@@ -14,8 +14,10 @@
                         Yii.t('yii', 'No'),
                         Yii.t('yii', 'Yes'),
                     ])|raw }}
+                    {{ Html.submitButton(Yii.t('podium.client.button', 'setting.save'), {'class': 'btn btn-default btn-xs'})|raw }}
                 {% else %}
                     {{ form.field(model, name)|raw }}
+                    {{ Html.submitButton(Yii.t('podium.client.button', 'setting.save'), {'class': 'btn btn-default'})|raw }}
                 {% endif %}
                 {{ active_form_end() }}
             </div>
