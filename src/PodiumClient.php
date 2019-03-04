@@ -8,9 +8,10 @@ use bizley\podium\api\Podium;
 use bizley\podium\client\base\Access;
 use bizley\podium\client\base\Notify;
 use bizley\podium\client\base\Config;
+use bizley\podium\client\widgets\fontawesome\FA;
 use Yii;
 use yii\base\Module;
-use yii\bootstrap\Html;
+use yii\bootstrap4\Html;
 use yii\console\Application;
 use yii\helpers\Url;
 use yii\i18n\PhpMessageSource;
@@ -168,7 +169,13 @@ class PodiumClient extends Module
                 'Url' => ['class' => Url::class],
                 'Yii' => ['class' => Yii::class],
             ],
-            'uses' => ['yii\bootstrap'],
+            'uses' => ['yii\bootstrap4'],
+            'functions' => [
+                'fa' => [
+                    [FA::class, 'icon'],
+                    ['is_safe' => ['html']]
+                ],
+            ],
         ];
     }
 }
