@@ -23,14 +23,14 @@ class FontAwesomeAsset extends AssetBundle
     /**
      * {@inheritdoc}
      */
-    public $css = ['css/all.css'];
+    public $css = ['css/all.min.css'];
 
     /**
      * {@inheritdoc}
      */
     public $publishOptions = [
         'only' => [
-            'css/all.css',
+            'css/all.min.css',
             'webfonts/*'
         ],
     ];

@@ -2,19 +2,27 @@
     <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action {{ this.context.action.id == 'members' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.members') }}
-            <span class="badge badge-primary"><i class="glyphicon glyphicon-user"></i></span>
+            {{ FA('users') }}
+        </a>
+        <a href="{{ path(['admin/categories']) }}" class="list-group-item list-group-item-action {{ this.context.action.id == 'categories' ? 'active' }} d-flex justify-content-between align-items-center">
+            {{ Yii.t('podium.client.link', 'admin.categories') }}
+            {{ FA('sitemap') }}
+        </a>
+        <a href="#" class="list-group-item list-group-item-action {{ this.context.action.id == 'forums' ? 'active' }} d-flex justify-content-between align-items-center">
+            {{ Yii.t('podium.client.link', 'admin.forums') }}
+            {{ FA('bullhorn') }}
         </a>
         <a href="#" class="list-group-item list-group-item-action {{ this.context.action.id == 'threads' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.threads') }}
-            <span class="badge badge-primary"><i class="glyphicon glyphicon-folder-open"></i></span>
+            {{ FA('list') }}
         </a>
         <a href="#" class="list-group-item list-group-item-action {{ this.context.action.id == 'posts' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.posts') }}
-            <span class="badge badge-primary"><i class="glyphicon glyphicon-comment"></i></span>
+            {{ FA('comments') }}
         </a>
         <a href="{{ path(['admin/settings']) }}" class="list-group-item list-group-item-action {{ this.context.action.id == 'settings' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.settings') }}
-            <span class="badge badge-primary"><i class="glyphicon glyphicon-cog"></i></span>
+            {{ FA('wrench') }}
         </a>
     </div>
 </div>

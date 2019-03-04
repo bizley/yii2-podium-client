@@ -49,6 +49,14 @@ class AdminController extends \yii\web\Controller
     }
 
     /**
+     * @return string
+     */
+    public function actionCategories(): string
+    {
+        return $this->render('categories.twig');
+    }
+
+    /**
      * @return string|Response
      * @throws \yii\base\InvalidConfigException
      */

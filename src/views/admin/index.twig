@@ -1,19 +1,52 @@
 {{ use('bizley/podium/client/widgets/chart') }}
 {{ set(this, 'title', Yii.t('podium.client.header', 'admin.dashboard')) }}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+</nav>
 <div class="card mb-3">
     <div class="card-body">
         <h5 class="card-title">
-            <span class="badge badge-primary float-right"><i class="glyphicon glyphicon-user"></i> 112</span>
-            <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.members') }}</a>
+            <span class="badge badge-dark float-right">112</span>
+            <a href="">{{ FA('users') }} {{ Yii.t('podium.client.link', 'admin.members') }}</a>
+            <a href="" class="btn btn-sm btn-outline-primary">{{ FA('plus-circle') }}</a>
         </h5>
         {{ chart_widget({'data': [2, 12, 23, 8, 11, 24, 33, 31, 27, 21, 25, 28]}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1 class="float-right"><span class="badge badge-dark">12</span></h1>
+                <h5 class="card-title">
+                    <a href="">{{ FA('sitemap') }} Categories</a>
+                    <a href="" class="btn btn-sm btn-outline-primary">{{ FA('plus-circle') }}</a>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1 class="float-right"><span class="badge badge-dark">5</span></h1>
+                <h5 class="card-title">
+                    <a href="">{{ FA('bullhorn') }} Forums</a>
+                    <a href="" class="btn btn-sm btn-outline-primary">{{ FA('plus-circle') }}</a>
+                </h5>
+            </div>
+        </div>
     </div>
 </div>
 <div class="card mb-3">
     <div class="card-body">
         <h5 class="card-title">
-            <span class="badge badge-primary float-right"><i class="glyphicon glyphicon-folder-open"></i> 34</span>
-            <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.threads') }}</a>
+            <span class="badge badge-dark float-right"><i class="glyphicon glyphicon-folder-open"></i> 34</span>
+            <a href="">{{ FA('list') }} {{ Yii.t('podium.client.link', 'admin.threads') }}</a>
         </h5>
         {{ chart_widget({'data': [30, 35, 45, 65, 35, 50, 40, 60, 35, 45, 12, 27]}) }}
     </div>
@@ -21,8 +54,8 @@
 <div class="card mb-3">
     <div class="card-body">
         <h5 class="card-title">
-            <span class="badge badge-primary float-right"><i class="glyphicon glyphicon-comment"></i> 749</span>
-            <a href=""><i class="glyphicon glyphicon-chevron-right"></i> {{ Yii.t('podium.client.link', 'admin.posts') }}</a>
+            <span class="badge badge-dark float-right"><i class="glyphicon glyphicon-comment"></i> 749</span>
+            <a href="">{{ FA('comments') }} {{ Yii.t('podium.client.link', 'admin.posts') }}</a>
         </h5>
         {{ chart_widget({'data': [12, 125, 87, 239, 345, 173, 99, 315, 366, 328, 259, 286]}) }}
     </div>

@@ -171,7 +171,7 @@ class PodiumClient extends Module
             ],
             'uses' => ['yii\bootstrap4'],
             'functions' => [
-                'fa' => [
+                'FA' => [
                     [FA::class, 'icon'],
                     ['is_safe' => ['html']]
                 ],
