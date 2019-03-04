@@ -1,20 +1,20 @@
-<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+<div class="col-3">
     <div class="list-group">
-        <a href="#" class="list-group-item {{ this.context.action.id == 'members' ? 'active' }}">
-            <span class="badge"><i class="glyphicon glyphicon-user"></i></span>
+        <a href="#" class="list-group-item list-group-item-action {{ this.context.action.id == 'members' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.members') }}
+            <span class="badge badge-primary"><i class="glyphicon glyphicon-user"></i></span>
         </a>
-        <a href="#" class="list-group-item {{ this.context.action.id == 'threads' ? 'active' }}">
-            <span class="badge"><i class="glyphicon glyphicon-folder-open"></i></span>
+        <a href="#" class="list-group-item list-group-item-action {{ this.context.action.id == 'threads' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.threads') }}
+            <span class="badge badge-primary"><i class="glyphicon glyphicon-folder-open"></i></span>
         </a>
-        <a href="#" class="list-group-item {{ this.context.action.id == 'posts' ? 'active' }}">
-            <span class="badge"><i class="glyphicon glyphicon-comment"></i></span>
+        <a href="#" class="list-group-item list-group-item-action {{ this.context.action.id == 'posts' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.posts') }}
+            <span class="badge badge-primary"><i class="glyphicon glyphicon-comment"></i></span>
         </a>
-        <a href="{{ path(['admin/settings']) }}" class="list-group-item {{ this.context.action.id == 'settings' ? 'active' }}">
-            <span class="badge"><i class="glyphicon glyphicon-cog"></i></span>
+        <a href="{{ path(['admin/settings']) }}" class="list-group-item list-group-item-action {{ this.context.action.id == 'settings' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.client.link', 'admin.settings') }}
+            <span class="badge badge-primary"><i class="glyphicon glyphicon-cog"></i></span>
         </a>
     </div>
 </div>

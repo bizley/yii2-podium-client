@@ -4,7 +4,7 @@ namespace bizley\podium\client\assets;
 
 use yii\web\AssetBundle;
 use yii\web\YiiAsset;
-use yii\bootstrap\BootstrapAsset;
+use yii\bootstrap4\BootstrapAsset;
 
 /**
  * Class PodiumAsset

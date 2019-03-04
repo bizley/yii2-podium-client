@@ -1,9 +1,10 @@
-{{ register_asset_bundle('bizley/podium/client/assets/PodiumAsset') }}{{ void(this.beginPage()) }}<!DOCTYPE html>
+{{ register_asset_bundle('bizley/podium/client/assets/PodiumAsset') }}
+{{ void(this.beginPage()) }}
+<!DOCTYPE html>
 <html lang="{{ app.language }}">
 <head>
     <meta charset="{{ app.charset }}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{ Html.csrfMetaTags|raw }}
     <title>{{ Html.encode(this.title) }}</title>
     {{ void(this.head) }}
@@ -11,22 +12,19 @@
 <body>
 {{ void(this.beginBody()) }}
 
-{% include "nav.twig" %}
+{% include 'nav.twig' %}
 
 <div class="container">
-    <div class="row row-offcanvas row-offcanvas-right">
-        <div class="col-xs-12 col-sm-9">
-            <p class="pull-right visible-xs">
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">{{ Yii.t('podium.client.label', 'nav.toggle') }}</button>
-            </p>
+    <div class="row">
+        <div class="col-9">
             {{ use('bizley/podium/client/widgets/notify') }}
             {{ notify_widget() }}
             {{ content|raw }}
         </div>
-        {% include "admin-menu.twig" %}
+        {% include 'admin-menu.twig' %}
     </div>
 
-    {% include "footer.twig" %}
+    {% include 'footer.twig' %}
 </div>
 
 {{ void(this.endBody()) }}

@@ -12,15 +12,15 @@
 <body>
 {{ void(this.beginBody()) }}
 
-{% include "nav.twig" %}
+{% include 'nav.twig' %}
 
 <div class="container">
-    <div class="row row-offcanvas row-offcanvas-right">
+    <div class="row">
         {{ content|raw }}
-        {% include "right-menu.twig" %}
+        {% include 'right-menu.twig' %}
     </div>
 
-    {% include "footer.twig" %}
+    {% include 'footer.twig' %}
 </div>
 
 {{ void(this.endBody()) }}
