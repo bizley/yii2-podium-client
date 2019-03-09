@@ -1,6 +1,6 @@
 <?php
 
-namespace bizley\podium\client\widgets\chart;
+namespace bizley\podium\client\widgets\chart\assets;
 
 use yii\web\AssetBundle;
 use yii\web\JqueryAsset;
@@ -25,7 +25,7 @@ class ChartJsAsset extends AssetBundle
      * @var array
      */
     public $publishOptions = [
-        'only' => ['/Chart.bundle.min.js'],
+        'only' => ['Chart.bundle.min.js'],
     ];
 
     /**

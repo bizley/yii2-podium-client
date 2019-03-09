@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\widgets\chart;
 
+use bizley\podium\client\widgets\chart\assets\ChartJsAsset;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
