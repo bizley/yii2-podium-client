@@ -1,3 +1,4 @@
+{{ use('bizley/podium/client/widgets/sortable') }}
 {{ set(this, 'title', Yii.t('podium.client.header', 'admin.categories')) }}
 
 <nav aria-label="breadcrumb">
@@ -10,33 +11,34 @@
 
 <h1 class="mb-3">{{ FA('sitemap') }} {{ Yii.t('podium.client.header', 'admin.categories') }}</h1>
 
-<div id="list">
-    // TODO implement Slip
-    <div class="media mb-1">
-        <button class="btn btn-outline-secondary mr-2 mt-3">{{ FA('ellipsis-v') }}</button>
-        <div class="media-body">
-            <div class="card">
-                <div class="card-body">
-                    <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
-                    <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
-                    <h5 class="card-title">Kategoria 1</h5>
-                    <h6 class="card-title mb-0">Subtytuł</h6>
-                </div>
-            </div>
+{{ sortable_begin() }}
+    <div class="card mb-1">
+        <div class="card-body">
+            <span class="handle btn btn-outline-secondary mr-3 pt-3 pb-3 float-left">{{ FA('arrows-alt-v') }}</span>
+            <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
+            <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
+            <h5 class="card-title">Kategoria 1</h5>
+            <h6 class="card-title mb-0">Subtytuł</h6>
         </div>
     </div>
 
-    <div class="media mb-1">
-        <button class="btn btn-outline-secondary mr-2 mt-3">{{ FA('ellipsis-v') }}</button>
-        <div class="media-body">
-            <div class="card">
-                <div class="card-body">
-                    <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
-                    <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
-                    <h5 class="card-title">Kategoria 1</h5>
-                    <h6 class="card-title mb-0">Subtytuł</h6>
-                </div>
-            </div>
+    <div class="card mb-1">
+        <div class="card-body">
+            <span class="handle btn btn-outline-secondary mr-3 pt-3 pb-3 float-left">{{ FA('arrows-alt-v') }}</span>
+            <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
+            <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
+            <h5 class="card-title">222</h5>
+            <h6 class="card-title mb-0">aaa</h6>
         </div>
     </div>
-</div>
+
+    <div class="card mb-1">
+        <div class="card-body">
+            <span class="handle btn btn-outline-secondary mr-3 pt-3 pb-3 float-left">{{ FA('arrows-alt-v') }}</span>
+            <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
+            <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
+            <h5 class="card-title">333</h5>
+            <h6 class="card-title mb-0">ccc</h6>
+        </div>
+    </div>
+{{ sortable_end() }}

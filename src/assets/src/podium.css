@@ -1,1 +1,15 @@
-body { padding-top:6rem }
+body {
+    padding-top: 6rem;
+}
+
+.handle {
+    cursor: ns-resize;
+}
+
+.sortable-ghost {
+    background-color: #fff3cd;
+}
+
+.sortable-ghost > .card-body > .btn {
+    visibility: hidden;
+}
