@@ -53,7 +53,17 @@ class AdminController extends \yii\web\Controller
      */
     public function actionCategories(): string
     {
-        return $this->render('categories.twig');
+        return $this->render('categories.twig', [
+            'categories' => $this->module->api->category->getCategories(
+                null,
+                [
+                    'defaultOrder' => [
+                        'sort' => SORT_ASC
+                    ],
+                ],
+                false
+            ),
+        ]);
     }
 
     /**

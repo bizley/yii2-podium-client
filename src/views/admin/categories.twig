@@ -9,36 +9,15 @@
     </ol>
 </nav>
 
-<h1 class="mb-3">{{ FA('sitemap') }} {{ Yii.t('podium.client.header', 'admin.categories') }}</h1>
+<h1 class="mb-3">
+    <a href="{{ path(['admin/add-category']) }}" class="btn btn-primary float-right">
+        {{ FA('plus') }} {{ Yii.t('podium.client.button', 'category.add') }}
+    </a>
+    {{ FA('sitemap') }} {{ Yii.t('podium.client.header', 'admin.categories') }}
+</h1>
 
 {{ sortable_begin() }}
-    <div class="card mb-1">
-        <div class="card-body">
-            <span class="handle btn btn-outline-secondary mr-3 pt-3 pb-3 float-left">{{ FA('arrows-alt-v') }}</span>
-            <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
-            <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
-            <h5 class="card-title">Kategoria 1</h5>
-            <h6 class="card-title mb-0">Subtytuł</h6>
-        </div>
-    </div>
-
-    <div class="card mb-1">
-        <div class="card-body">
-            <span class="handle btn btn-outline-secondary mr-3 pt-3 pb-3 float-left">{{ FA('arrows-alt-v') }}</span>
-            <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
-            <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
-            <h5 class="card-title">222</h5>
-            <h6 class="card-title mb-0">aaa</h6>
-        </div>
-    </div>
-
-    <div class="card mb-1">
-        <div class="card-body">
-            <span class="handle btn btn-outline-secondary mr-3 pt-3 pb-3 float-left">{{ FA('arrows-alt-v') }}</span>
-            <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
-            <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
-            <h5 class="card-title">333</h5>
-            <h6 class="card-title mb-0">ccc</h6>
-        </div>
-    </div>
+    {% for category in categories %}
+        {{ include('categories-item.twig') }}
+    {% endfor %}
 {{ sortable_end() }}
