@@ -4,7 +4,7 @@
             {{ Yii.t('podium.admin.link', 'members') }}
             {{ FA('users') }}
         </a>
-        <a href="{{ path(['categories/index']) }}" class="list-group-item list-group-item-action {{ this.context.action.id == 'categories' ? 'active' }} d-flex justify-content-between align-items-center">
+        <a href="{{ path(['categories/index']) }}" class="list-group-item list-group-item-action {{ this.context.id == 'categories' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.admin.link', 'categories') }}
             {{ FA('sitemap') }}
         </a>
@@ -20,7 +20,7 @@
             {{ Yii.t('podium.admin.link', 'posts') }}
             {{ FA('comments') }}
         </a>
-        <a href="{{ path(['admin/settings']) }}" class="list-group-item list-group-item-action {{ this.context.action.id == 'settings' ? 'active' }} d-flex justify-content-between align-items-center">
+        <a href="{{ path(['admin/settings']) }}" class="list-group-item list-group-item-action {{ this.context.id == 'settings' ? 'active' }} d-flex justify-content-between align-items-center">
             {{ Yii.t('podium.admin.link', 'settings') }}
             {{ FA('wrench') }}
         </a>

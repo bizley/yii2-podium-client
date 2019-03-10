@@ -10,7 +10,6 @@ use bizley\podium\client\base\Config;
 use bizley\podium\client\base\Notify;
 use Yii;
 use yii\base\Module;
-use yii\console\Application;
 use yii\i18n\PhpMessageSource;
 
 /**
@@ -39,10 +38,6 @@ class PodiumAdmin extends Module
         parent::init();
 
         $this->setVersion('1.0.0');
-
-        if (Yii::$app instanceof Application) {
-            $this->controllerNamespace = 'bizley\podium\client\admin\commands';
-        }
 
         $this->prepareTranslations();
     }

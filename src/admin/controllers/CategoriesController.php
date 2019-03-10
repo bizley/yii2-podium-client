@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\admin\controllers;
 
+use bizley\podium\client\admin\forms\CategoryForm;
 use bizley\podium\client\admin\PodiumAdmin;
 use bizley\podium\client\enums\Role;
 use bizley\podium\client\filters\PodiumAccessControl;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class CategoriesController
@@ -70,6 +72,46 @@ class CategoriesController extends \yii\web\Controller
                 ],
                 false
             ),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionCreate(): string
+    {
+        $model = new CategoryForm();
+
+        $categories = ArrayHelper::map(
+            $this
+                ->module
+                ->api
+                ->category
+                ->getCategories(
+                    null,
+                    [
+                        'defaultOrder' => [
+                            'sort' => SORT_ASC
+                        ],
+                    ],
+                    false
+                )
+                ->getModels(),
+            'id',
+            'name'
+        );
+
+        $this->setBreadcrumbs([
+            [
+                'label' => Yii::t('podium.admin.link', 'categories'),
+                'url' => ['categories/index'],
+            ],
+            Yii::t('podium.admin.header', 'category.add')
+        ]);
+
+        return $this->render('create.twig', [
+            'model' => $model,
+            'categories' => [-1 => Yii::t('podium.admin.label', 'beginning')] + $categories,
         ]);
     }
 }
