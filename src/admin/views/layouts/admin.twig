@@ -17,7 +17,13 @@
 <div class="container">
     <div class="row">
         <div class="col-9">
-            {{ breadcrumbs_widget({'links': this.params['breadcrumbs'] ?? []}) }}
+            {{ breadcrumbs_widget({
+                'links': this.params['breadcrumbs'] ?? [],
+                'homeLink': {
+                    'label': '# Podium #',
+                    'url': ['/' ~ app.controller.module.podiumId]
+                }
+            }) }}
             {{ use('bizley/podium/client/widgets/notify') }}
             {{ notify_widget() }}
             {{ content|raw }}
