@@ -17,10 +17,8 @@ use yii\web\Response;
  *
  * @property PodiumAdmin $module
  */
-class CategoriesController extends \yii\web\Controller
+class SettingsController extends \yii\web\Controller
 {
-    public $layout = 'admin.twig';
-
     /**
      * @return array
      */
@@ -50,7 +48,7 @@ class CategoriesController extends \yii\web\Controller
             $parent ? [
                 [
                     'label' => Yii::t('podium.client.link', 'admin.dashboard'),
-                    'url' => ['admin/index'],
+                    'url' => ['main/index'],
                 ]
             ] : [],
             $links
@@ -58,30 +56,10 @@ class CategoriesController extends \yii\web\Controller
     }
 
     /**
-     * @return string
-     */
-    public function actionIndex(): string
-    {
-        $this->setBreadcrumbs([Yii::t('podium.client.header', 'admin.categories')]);
-
-        return $this->render('categories.twig', [
-            'categories' => $this->module->api->category->getCategories(
-                null,
-                [
-                    'defaultOrder' => [
-                        'sort' => SORT_ASC
-                    ],
-                ],
-                false
-            ),
-        ]);
-    }
-
-    /**
      * @return string|Response
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionSettings()
+    public function actionIndex()
     {
         $model = new SettingsForm($this->module->getConfig());
 
@@ -95,7 +73,7 @@ class CategoriesController extends \yii\web\Controller
             return $this->refresh();
         }
 
-        return $this->render('settings.twig', [
+        return $this->render('index.twig', [
             'model' => $model,
         ]);
     }
