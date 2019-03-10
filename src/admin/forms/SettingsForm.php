@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace bizley\podium\client\forms;
+namespace bizley\podium\client\admin\forms;
 
 use bizley\podium\client\enums\Setting;
 use bizley\podium\client\interfaces\ConfigInterface;
@@ -10,7 +10,7 @@ use yii\base\Model;
 
 /**
  * Class SettingsForm
- * @package bizley\podium\client\forms
+ * @package bizley\podium\client\admin\forms
  */
 class SettingsForm extends Model
 {
