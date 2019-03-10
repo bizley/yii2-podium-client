@@ -1,9 +1,6 @@
 <?php
 
 return [
-    'admin.members' => 'Members',
-    'admin.posts' => 'Posts',
-    'admin.threads' => 'Threads',
     'alert.close' => 'Close',
     'month.april' => 'April',
     'month.august' => 'August',

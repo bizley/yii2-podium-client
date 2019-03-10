@@ -12,11 +12,12 @@
 <body>
 {{ void(this.beginBody()) }}
 
-{% include 'nav.twig' %}
+{% include '@layouts/nav.twig' %}
 
 <div class="container">
     <div class="row">
         <div class="col-9">
+            {{ breadcrumbs_widget({'links': this.params['breadcrumbs'] ?? []}) }}
             {{ use('bizley/podium/client/widgets/notify') }}
             {{ notify_widget() }}
             {{ content|raw }}
@@ -24,7 +25,7 @@
         {% include 'admin-menu.twig' %}
     </div>
 
-    {% include 'footer.twig' %}
+    {% include '@layouts/footer.twig' %}
 </div>
 
 {{ void(this.endBody()) }}

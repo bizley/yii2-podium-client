@@ -10,11 +10,11 @@
         'items': [
             {
                 'label': 'Home',
-                'url': ['/site/index'],
+                'url': ['/' ~ app.controller.module.podiumId],
             },
             {
                 'label': Yii.t('podium.client.label', 'nav.administration'),
-                'url': ['admin/index'],
+                'url': ['/' ~ app.controller.module.podiumId ~ '/' ~ app.controller.module.podiumAdminId],
             },
         ],
     }) }}

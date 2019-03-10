@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace bizley\podium\client\controllers;
+namespace bizley\podium\client\admin\controllers;
 
+use bizley\podium\client\admin\PodiumAdmin;
 use bizley\podium\client\enums\Role;
 use bizley\podium\client\filters\PodiumAccessControl;
 use bizley\podium\client\forms\SettingsForm;
-use bizley\podium\client\PodiumClient;
 use Yii;
 use yii\web\Response;
 
 /**
- * Class AdminController
- * @package bizley\podium\client\controllers
+ * Class CategoriesController
+ * @package bizley\podium\client\admin\controllers
  *
- * @property PodiumClient $module
+ * @property PodiumAdmin $module
  */
-class AdminController extends \yii\web\Controller
+class CategoriesController extends \yii\web\Controller
 {
     public $layout = 'admin.twig';
 
@@ -29,7 +29,7 @@ class AdminController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => PodiumAccessControl::class,
-                'podium' => $this->module,
+                'podium' => $this->module->module,
                 'rules' => [
                     [
                         'allow' => true,
@@ -61,16 +61,6 @@ class AdminController extends \yii\web\Controller
      * @return string
      */
     public function actionIndex(): string
-    {
-        $this->setBreadcrumbs([Yii::t('podium.client.header', 'admin.dashboard')], false);
-
-        return $this->render('index.twig');
-    }
-
-    /**
-     * @return string
-     */
-    public function actionCategories(): string
     {
         $this->setBreadcrumbs([Yii::t('podium.client.header', 'admin.categories')]);
 

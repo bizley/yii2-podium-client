@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace bizley\podium\client;
 
 use bizley\podium\api\Podium;
+use bizley\podium\client\admin\PodiumAdmin;
 use bizley\podium\client\base\Access;
 use bizley\podium\client\base\Notify;
 use bizley\podium\client\base\Config;
@@ -75,6 +76,8 @@ class PodiumClient extends Module
         $this->setConfig();
         $this->setAccess();
         $this->setNotify();
+
+        $this->setAdminModule();
 
         $this->prepareTranslations();
         $this->prepareTwigRenderer();
@@ -148,6 +151,11 @@ class PodiumClient extends Module
         return $this->get('notify');
     }
 
+    protected function setAdminModule(): void
+    {
+        $this->modules = ['admin' => PodiumAdmin::class];
+    }
+
     public function prepareTranslations(): void
     {
         Yii::$app->getI18n()->translations['podium.client.*'] = [
@@ -176,6 +184,33 @@ class PodiumClient extends Module
                     ['is_safe' => ['html']]
                 ],
             ],
+            'twigFallbackPaths' => [
+                'layouts' => '@bizley/podium/client/views/layouts'
+            ]
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getPodiumId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPodiumVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPodiumAdminId(): string
+    {
+        return 'admin';
     }
 }
