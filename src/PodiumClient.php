@@ -146,7 +146,7 @@ class PodiumClient extends Module
      * @return null|object|Notify
      * @throws \yii\base\InvalidConfigException
      */
-    public function getAlert()
+    public function getNotify()
     {
         return $this->get('notify');
     }

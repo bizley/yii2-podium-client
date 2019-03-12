@@ -73,7 +73,7 @@ class PodiumAdmin extends Module
      * @return null|object|Notify
      * @throws \yii\base\InvalidConfigException
      */
-    public function getAlert()
+    public function getNotify()
     {
         return $this->module->get('notify');
     }
