@@ -45,7 +45,7 @@ class MainController extends \yii\web\Controller
         $this->view->params['breadcrumbs'] = array_merge(
             $parent ? [
                 [
-                    'label' => Yii::t('podium.client.link', 'admin.dashboard'),
+                    'label' => Yii::t('podium.admin.link', 'dashboard'),
                     'url' => ['admin/index'],
                 ]
             ] : [],
@@ -58,7 +58,7 @@ class MainController extends \yii\web\Controller
      */
     public function actionIndex(): string
     {
-        $this->setBreadcrumbs([Yii::t('podium.client.header', 'admin.dashboard')], false);
+        $this->setBreadcrumbs([Yii::t('podium.admin.header', 'dashboard')], false);
 
         return $this->render('index.twig');
     }

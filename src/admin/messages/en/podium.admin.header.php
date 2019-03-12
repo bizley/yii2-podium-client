@@ -3,7 +3,7 @@
 return [
     'categories' => 'Categories',
     'category.add' => 'Add Category',
-    'dashboard' => 'Admin Dashboard',
+    'dashboard' => 'Dashboard',
     'members' => 'Members',
     'posts' => 'Posts',
     'settings' => 'Settings',

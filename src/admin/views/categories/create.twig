@@ -4,13 +4,13 @@
 </h1>
 
 {% set form = active_form_begin({'id': 'category-form'}) %}
-    {{ form.field(model, 'name')|raw }}
-    {{ form.field(model, 'slug')|raw }}
-    {{ form.field(model, 'description')|raw }}
+    {{ form.field(model, 'name').hint(Yii.t('podium.admin.hint', 'category.name'))|raw }}
+    {{ form.field(model, 'slug').hint(Yii.t('podium.admin.hint', 'category.slug'))|raw }}
+    {{ form.field(model, 'description').hint(Yii.t('podium.admin.hint', 'category.description'))|raw }}
     {{ form.field(model, 'visible', {
         'checkTemplate': "<div class=\"custom-control custom-checkbox\">\n{input}\n{label}\n{error}\n{hint}\n</div>"
-    }).checkbox({'class': 'custom-control-input'}).label(null, {'class': 'custom-control-label'})|raw }}
-    {{ form.field(model, 'after').dropdownList(categories, {'class': 'custom-select'})|raw }}
+    }).checkbox({'class': 'custom-control-input'}).label(null, {'class': 'custom-control-label'}).hint(Yii.t('podium.admin.hint', 'category.visible'))|raw }}
+    {{ form.field(model, 'after').dropdownList(categories, {'class': 'custom-select'}).hint(Yii.t('podium.admin.hint', 'category.after'))|raw }}
     <div class="form-group">
         <input type="submit" value="{{ Yii.t('podium.admin.label', 'category.save') }}" class="btn btn-primary btn-lg">
     </div>

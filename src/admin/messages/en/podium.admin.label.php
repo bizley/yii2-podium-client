@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'beginning' => 'Beginning',
+    'after.beginning' => 'Beginning',
     'category.after' => 'Add Category After',
     'category.description' => 'Description',
     'category.name' => 'Name',
