@@ -80,7 +80,11 @@ class CategoriesController extends \yii\web\Controller
      */
     public function actionCreate(): string
     {
-        $model = new CategoryForm();
+        $model = new CategoryForm($this->module->api, $this->module->notify);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            echo 'ok';
+        }
 
         $categories = ArrayHelper::map(
             $this
@@ -111,7 +115,7 @@ class CategoriesController extends \yii\web\Controller
 
         return $this->render('create.twig', [
             'model' => $model,
-            'categories' => [-1 => Yii::t('podium.admin.label', 'beginning')] + $categories,
+            'categories' => [-1 => '-- ' . Yii::t('podium.admin.label', 'after.beginning')] + $categories,
         ]);
     }
 }

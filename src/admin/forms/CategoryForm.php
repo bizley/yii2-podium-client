@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\admin\forms;
 
+use bizley\podium\api\Podium;
+use bizley\podium\client\base\Notify;
 use Yii;
 use yii\base\Model;
 
@@ -31,12 +33,29 @@ class CategoryForm extends Model
     /**
      * @var bool
      */
-    public $visible;
+    public $visible = true;
 
     /**
      * @var int
      */
     public $after;
+
+    private $api;
+    private $notify;
+
+    /**
+     * CategoryForm constructor.
+     * @param Podium $api
+     * @param Notify $notify
+     * @param array $config
+     */
+    public function __construct(Podium $api, Notify $notify, array $config = [])
+    {
+        $this->api = $api;
+        $this->notify = $notify;
+
+        parent::__construct($config);
+    }
 
     /**
      * @return array
@@ -45,10 +64,12 @@ class CategoryForm extends Model
     {
         return [
             [['visible'], 'default', 'value' => true],
-            [['name', 'slug'], 'required'],
+            [['name', 'slug'], 'filter', 'filter' => 'trim'],
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['visible'], 'boolean'],
-            [['sort'], 'integer'],
+            [['after'], 'integer'],
+            [['slug'], 'match', 'pattern' => '/^[a-zA-Z0-9\-]{0,255}$/'],
         ];
     }
 
@@ -72,6 +93,17 @@ class CategoryForm extends Model
     public function save(): bool
     {
         if (!$this->validate()) {
+            return false;
+        }
+
+        $response = $this->api->category->create(
+            [],
+            $this->api->member->getMemberByUserId(Yii::$app->user->id)
+        );
+
+        if (!$response->result) {
+            $this->notify->error('aaa');
+
             return false;
         }
 
