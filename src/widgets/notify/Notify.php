@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace bizley\podium\client\widgets\notify;
 
 use Yii;
-use yii\bootstrap\Html;
-use yii\bootstrap\Widget;
+use yii\bootstrap4\Html;
+use yii\bootstrap4\Widget;
 use yii\di\Instance;
 use yii\web\Session;
 
@@ -52,7 +52,7 @@ class Notify extends Widget
                             'aria-label' => Yii::t('podium.client.label', 'alert.close'),
                         ]),
                         [
-                            'class' => "alert alert-{$key} alert-dismissible fade in",
+                            'class' => "alert alert-{$key} alert-dismissible fade show",
                             'role' => 'alert',
                         ]);
                 }
