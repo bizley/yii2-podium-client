@@ -8,7 +8,7 @@
 </h1>
 
 {{ sortable_begin() }}
-    {% for category in categories %}
+    {% for category in categories.models %}
         {{ include('category-item.twig') }}
     {% endfor %}
 {{ sortable_end() }}

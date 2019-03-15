@@ -76,16 +76,10 @@ class CategoriesController extends \yii\web\Controller
     }
 
     /**
-     * @return string
+     * @return string|\yii\web\Response
      */
-    public function actionCreate(): string
+    public function actionCreate()
     {
-        $model = new CategoryForm($this->module->api, $this->module->notify);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            echo 'ok';
-        }
-
         $categories = ArrayHelper::map(
             $this
                 ->module
@@ -104,6 +98,18 @@ class CategoriesController extends \yii\web\Controller
             'id',
             'name'
         );
+
+        $model = new CategoryForm(
+            $this->module->api,
+            $this->module->notify,
+            $categories
+        );
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->module->notify->success(Yii::t('podium.admin.success', 'category.added'));
+
+            return $this->redirect(['index']);
+        }
 
         $this->setBreadcrumbs([
             [

@@ -1,9 +1,9 @@
 <div class="card mb-1">
     <div class="card-body">
         <span class="handle btn btn-outline-secondary mr-3 pt-3 pb-3 float-left">{{ FA('arrows-alt-v') }}</span>
-        <a href="" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
-        <a href="" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
-        <h5 class="card-title">Category title</h5>
-        <h6 class="card-title mb-0">Category subtitle</h6>
+        <a href="{{ path({0: 'categories/delete', 'id': category.id}) }}" class="btn btn-outline-danger float-right">{{ FA('trash-alt') }}</a>
+        <a href="{{ path({0: 'categories/update', 'id': category.id}) }}" class="btn btn-outline-success float-right mr-1">{{ FA('pen') }}</a>
+        <h5 class="card-title">{{ category.name|e }}</h5>
+        <h6 class="card-title mb-0"><em>{{ category.slug|e }}</em></h6>
     </div>
 </div>
