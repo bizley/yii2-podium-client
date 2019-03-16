@@ -41,7 +41,7 @@ class CategoryForm extends Model
     /**
      * @var int
      */
-    public $after;
+    public $after = -1;
 
     /**
      * CategoryForm constructor.
@@ -55,6 +55,12 @@ class CategoryForm extends Model
         $this->_api = $api;
         $this->_notify = $notify;
         $this->_categories = $categories;
+
+        if ($categories) {
+            end($categories);
+            $this->after = key($categories);
+            reset($categories);
+        }
 
         parent::__construct($config);
     }
@@ -120,14 +126,14 @@ class CategoryForm extends Model
         ];
     }
 
-    private $apiId;
+    private $categoryApiId;
 
     /**
      * @return int|null
      */
     public function getId(): ?int
     {
-        return $this->apiId;
+        return $this->categoryApiId;
     }
 
     /**
@@ -163,7 +169,7 @@ class CategoryForm extends Model
             return false;
         }
 
-        $this->apiId = $response->data['id'];
+        $this->categoryApiId = $response->data['id'];
 
         $this->resort();
 
