@@ -7,7 +7,7 @@
     {{ FA('sitemap') }} {{ Yii.t('podium.admin.header', 'categories') }}
 </h1>
 
-{{ sortable_begin() }}
+{{ sortable_begin({'action': ['categories/sort']}) }}
     {% for category in categories.models %}
         {{ include('category-item.twig') }}
     {% endfor %}

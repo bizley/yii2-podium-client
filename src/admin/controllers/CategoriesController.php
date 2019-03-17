@@ -6,10 +6,12 @@ namespace bizley\podium\client\admin\controllers;
 
 use bizley\podium\client\admin\forms\CategoryForm;
 use bizley\podium\client\admin\PodiumAdmin;
+use bizley\podium\client\admin\services\CategorySort;
 use bizley\podium\client\enums\Role;
 use bizley\podium\client\filters\PodiumAccessControl;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 /**
  * Class CategoriesController
@@ -44,7 +46,7 @@ class CategoriesController extends \yii\web\Controller
      */
     public function setBreadcrumbs(array $links = [], bool $parent = true): void
     {
-        $this->view->params['breadcrumbs'] = array_merge(
+        $this->view->params['breadcrumbs'] = \array_merge(
             $parent ? [
                 [
                     'label' => Yii::t('podium.admin.link', 'dashboard'),
@@ -76,7 +78,7 @@ class CategoriesController extends \yii\web\Controller
     }
 
     /**
-     * @return string|\yii\web\Response
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -122,6 +124,23 @@ class CategoriesController extends \yii\web\Controller
         return $this->render('create.twig', [
             'model' => $model,
             'categories' => [-1 => '-- ' . Yii::t('podium.admin.label', 'after.beginning')] + $categories,
+        ]);
+    }
+
+    /**
+     * @param int|string $newOrder
+     * @param int|string $oldOrder
+     * @return Response
+     */
+    public function actionSort($newOrder, $oldOrder): Response
+    {
+        $categorySort = new CategorySort($this->module->api);
+
+        $categorySort->setNewIndex((int) $newOrder);
+        $categorySort->setOldIndex((int) $oldOrder);
+
+        return $this->asJson([
+            'result' => $categorySort->reIndex(),
         ]);
     }
 }
