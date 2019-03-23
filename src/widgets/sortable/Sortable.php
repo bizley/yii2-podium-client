@@ -43,10 +43,10 @@ $("#{$this->id}").sortable({
         let handle = $(e.item).find(".handle");
         handle.removeClass("btn-outline-secondary").addClass("text-muted").find(".fa-arrows-alt-v").removeClass("fa-arrows-alt-v").addClass("fa-circle-notch fa-spin");
         $.get("{$url}", {newOrder: e.newIndex, oldOrder: e.oldIndex})
-            .always(function(data) {
+            .always(function() {
                 handle.removeClass("text-muted").find(".fa-circle-notch").removeClass("fa-circle-notch fa-spin").addClass("fa-arrows-alt-v");
             })
-            .done(function(data) {
+            .done(function() {
                 handle.addClass("btn-outline-success");
             })
             .fail(function() {

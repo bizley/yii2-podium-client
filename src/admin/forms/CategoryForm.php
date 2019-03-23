@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace bizley\podium\client\admin\forms;
 
+use bizley\podium\api\models\category\Category;
 use bizley\podium\api\Podium;
+use bizley\podium\client\base\ApiModelNotFoundException;
 use bizley\podium\client\base\ErrorsSummaryTrait;
 use bizley\podium\client\base\Notify;
 use Yii;
@@ -48,13 +50,21 @@ class CategoryForm extends Model
      * @param Podium $api
      * @param Notify $notify
      * @param array $categories
+     * @param null|int $categoryId
      * @param array $config
      */
-    public function __construct(Podium $api, Notify $notify, array $categories, array $config = [])
+    public function __construct(
+        Podium $api,
+        Notify $notify,
+        array $categories,
+        ?int $categoryId = null,
+        array $config = []
+    )
     {
         $this->_api = $api;
         $this->_notify = $notify;
         $this->_categories = $categories;
+        $this->_categoryApiId = $categoryId;
 
         if ($categories) {
             end($categories);
@@ -63,6 +73,37 @@ class CategoryForm extends Model
         }
 
         parent::__construct($config);
+    }
+
+    /**
+     * @throws ApiModelNotFoundException
+     */
+    public function init(): void
+    {
+        parent::init();
+
+        $categoryId = $this->getCategoryApiId();
+
+        if ($categoryId !== null) {
+            /* @var $category Category */
+            $category = $this->getApi()->category->getCategoryById($categoryId);
+
+            if ($category === null) {
+                throw new ApiModelNotFoundException("Category {$categoryId} has not been found.");
+            }
+
+            $this->name = $category->name;
+            $this->slug = $category->slug;
+            $this->description = $category->description;
+            $this->visible = $category->visible;
+
+            if ($category->sort === 0) {
+                $this->after = -1;
+            } else {
+                $sortOrder = \array_keys($this->getCategories());
+                $this->after = $sortOrder[$category->sort - 1];
+            }
+        }
     }
 
     private $_api;
@@ -93,6 +134,16 @@ class CategoryForm extends Model
     public function getCategories(): array
     {
         return $this->_categories;
+    }
+
+    private $_categoryApiId;
+
+    /**
+     * @return int|null
+     */
+    public function getCategoryApiId(): ?int
+    {
+        return $this->_categoryApiId;
     }
 
     /**
@@ -126,15 +177,7 @@ class CategoryForm extends Model
         ];
     }
 
-    private $categoryApiId;
 
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->categoryApiId;
-    }
 
     /**
      * @return bool
@@ -145,6 +188,18 @@ class CategoryForm extends Model
             return false;
         }
 
+        if ($this->getCategoryApiId() === null) {
+            return $this->create();
+        }
+
+        return $this->update();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function create(): bool
+    {
         $response = $this->getApi()->category->create(
             [
                 'name' => $this->name,
@@ -169,7 +224,43 @@ class CategoryForm extends Model
             return false;
         }
 
-        $this->categoryApiId = $response->data['id'];
+        $this->_categoryApiId = $response->data['id'];
+
+        $this->resort();
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function update(): bool
+    {
+        $response = $this->getApi()->category->edit(CategoryForm::findOne(1)
+            [
+                'name' => $this->name,
+                'description' => $this->description,
+                'slug' => $this->slug ?? null,
+                'visible' => $this->visible,
+                'sort' => 0,
+            ],
+            $this->getApi()->member->getMemberByUserId(Yii::$app->user->id)
+        );
+
+        if (!$response->result) {
+            if ($response->data) {
+                $this->getNotify()->error($this->getErrorsSummary(
+                    Yii::t('podium.admin.error', 'category.add.summary'),
+                    $response->data
+                ));
+            } else {
+                $this->getNotify()->error(Yii::t('podium.admin.error', 'category.add'));
+            }
+
+            return false;
+        }
+
+        $this->_categoryApiId = $response->data['id'];
 
         $this->resort();
 
@@ -181,15 +272,15 @@ class CategoryForm extends Model
         $sortOrder = \array_keys($this->getCategories());
 
         if ($this->after === -1) {
-            \array_unshift($sortOrder, $this->getId());
+            \array_unshift($sortOrder, $this->getCategoryApiId());
         } elseif (!\in_array($this->after, $sortOrder, true)) {
-            $sortOrder[] = $this->getId();
+            $sortOrder[] = $this->getCategoryApiId();
         } else {
             \array_splice(
                 $sortOrder,
                 \array_search($this->after, $sortOrder, true) + 1,
                 0,
-                [$this->getId()]
+                [$this->getCategoryApiId()]
             );
         }
 

@@ -7,6 +7,7 @@ namespace bizley\podium\client\admin\controllers;
 use bizley\podium\client\admin\forms\CategoryForm;
 use bizley\podium\client\admin\PodiumAdmin;
 use bizley\podium\client\admin\services\CategorySort;
+use bizley\podium\client\base\ApiModelNotFoundException;
 use bizley\podium\client\enums\Role;
 use bizley\podium\client\filters\PodiumAccessControl;
 use Yii;
@@ -141,6 +142,64 @@ class CategoriesController extends \yii\web\Controller
 
         return $this->asJson([
             'result' => $categorySort->reIndex(),
+        ]);
+    }
+
+    /**
+     * @param string|int $id
+     * @return string|Response
+     */
+    public function actionUpdate($id)
+    {
+        $categories = ArrayHelper::map(
+            $this
+                ->module
+                ->api
+                ->category
+                ->getCategories(
+                    null,
+                    [
+                        'defaultOrder' => [
+                            'sort' => SORT_ASC
+                        ],
+                    ],
+                    false
+                )
+                ->getModels(),
+            'id',
+            'name'
+        );
+
+        try {
+            $model = new CategoryForm(
+                $this->module->api,
+                $this->module->notify,
+                $categories,
+                (int) $id
+            );
+        } catch (ApiModelNotFoundException $exc) {
+            $this->module->notify->error(Yii::t('podium.admin.error', 'category.not.found'));
+
+            return $this->redirect(['index']);
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $this->module->notify->success(Yii::t('podium.admin.success', 'category.updated'));
+
+            return $this->redirect(['index']);
+        }
+
+        $this->setBreadcrumbs([
+            [
+                'label' => Yii::t('podium.admin.link', 'categories'),
+                'url' => ['categories/index'],
+            ],
+            Yii::t('podium.admin.header', 'category.update')
+        ]);
+
+        return $this->render('update.twig', [
+            'model' => $model,
+            'categories' => [-1 => '-- ' . Yii::t('podium.admin.label', 'after.beginning')] + $categories,
         ]);
     }
 }
